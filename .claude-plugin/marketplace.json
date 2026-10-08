@@ -1,0 +1,16 @@
+{
+  "name": "domhabersack",
+  "owner": {
+    "name": "Dom Habersack"
+  },
+  "metadata": {
+    "description": "Dom Habersack's agent skills and Claude Code subagents"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "description": "Dom Habersack's agent skills and Claude Code subagents"
+    }
+  ]
+}
