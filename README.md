@@ -37,6 +37,18 @@ templates/               copy-paste starting points (not published)
 
 Names are kebab-case and must match the directory (skills) or filename (agents).
 
+## Formatting
+
+Markdown is formatted with [Prettier](https://prettier.io), which also aligns tables.
+
+```sh
+npm install          # installs Prettier and enables the git pre-commit hook
+npm run format       # format all markdown
+npm run format:check # verify (also runs in CI)
+```
+
+The hook in `.githooks/pre-commit` formats staged `.md` files on commit. It is a plain git hook that `npm install` activates via `core.hooksPath`. No other tooling is needed, and any editor or agent can run `npm run format`.
+
 ## Validate
 
 ```sh
