@@ -1,0 +1,13 @@
+{
+  "name": "skills",
+  "private": true,
+  "description": "Agent skills and Claude Code subagents",
+  "scripts": {
+    "format": "prettier --write \"**/*.md\"",
+    "format:check": "prettier --check \"**/*.md\"",
+    "prepare": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
+}

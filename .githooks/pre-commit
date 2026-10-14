@@ -1,0 +1,28 @@
+#!/bin/sh
+# Formats staged markdown files with Prettier and re-stages them.
+# Installed via `npm install` (the `prepare` script sets core.hooksPath).
+
+# Symlinks (mode 120000, such as AGENTS.md) are skipped: Prettier refuses to format them.
+staged_files=$(git diff --cached --raw --diff-filter=ACM -- '*.md' | awk '$2 != "120000" { sub(/^[^\t]*\t/, ""); print }')
+
+if [ -z "$staged_files" ]; then
+  exit 0
+fi
+
+# Re-staging a partially staged file would stage changes that were left out on purpose.
+partially_staged=$(git diff --name-only -- $staged_files)
+
+if [ -n "$partially_staged" ]; then
+  echo "pre-commit: these markdown files have unstaged changes, so they cannot be formatted automatically:" >&2
+  echo "$partially_staged" >&2
+  echo "Stage or stash the remaining changes, or run 'npm run format' and stage the result." >&2
+  exit 1
+fi
+
+if [ ! -x node_modules/.bin/prettier ]; then
+  echo "pre-commit: Prettier is not installed. Run 'npm install'." >&2
+  exit 1
+fi
+
+echo "$staged_files" | tr '\n' '\0' | xargs -0 node_modules/.bin/prettier --write --log-level warn
+echo "$staged_files" | tr '\n' '\0' | xargs -0 git add --
