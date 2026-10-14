@@ -5,7 +5,7 @@ description: How Dom designs and builds frontend interfaces (React, Next.js, Tai
 
 # Interface design
 
-The default taste for new and existing UIs. It should feel like **Tailwind UI and Refactoring UI**, clean and hierarchical, and nothing like Material UI. For wording and typography inside the UI, also use the `ui-microcopy` skill. Component details live in `references/components.md` and panel and editor layouts in `references/layout-and-panels.md`; read the one that matches the task.
+The default taste for new and existing UIs. It should follow the guidelines laid out by **Refactoring UI**: clean and hierarchical, and nothing like Material UI. For wording and typography inside the UI, also use the `ui-microcopy` skill. Component details live in `references/components.md` and panel and editor layouts in `references/layout-and-panels.md`; read the one that matches the task.
 
 ## Start from what exists
 
@@ -28,14 +28,14 @@ The default taste for new and existing UIs. It should feel like **Tailwind UI an
 - Each project has **one main color** taken from the default Tailwind palette (sky for codeshots and graphite). Avoid AI indigo, default violet, and other overused choices. If told "there is too much violet", look for leaks in toggles, focus rings, and badges.
 - Neutrals are zinc. Use the main color for actions, links, and active navigation. Switches/toggles may use emerald, kept to one shade throughout.
 - Focus rings use the main color. Check them when changing the palette.
-- Buttons follow the Tailwind UI button recipe in the project's color (see `references/components.md`).
+- Buttons follow the button recipe in `references/components.md`, in the project's color.
 - In previews, use the darkest shade of the theme color as the surrounding panel background, with a legible lighter shade for text on it. When panels differ in background, no border line between them is needed.
 - Text cursors and highlights follow the active theme so they remain visible on dark and mid-tone backgrounds.
 
 ## Typography
 
 - Inter is fine. A second typeface for headings is welcome.
-- **Headings are heavy**, as heavy as in Tailwind UI (`font-black` or `font-extrabold`, as the project defines). All heading levels use shared heading components (`H1`, `H2`, …) so sizes change in one place and the same level looks the same on every page.
+- **Headings are heavy**, much heavier than default body weights (`font-black` or `font-extrabold`, as the project defines). All heading levels use shared heading components (`H1`, `H2`, …) so sizes change in one place and the same level looks the same on every page.
 - Keep default letter-spacing on headings unless there is a reason.
 - Form labels use one shared `Label`: `text-sm font-medium text-zinc-700`, dark enough to read.
 - Self-host fonts rather than loading them from a font CDN.

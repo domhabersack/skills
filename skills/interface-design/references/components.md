@@ -1,6 +1,6 @@
 # Component patterns
 
-Reference for `interface-design`. Class strings are from the Tailwind UI snippets used in past projects; swap the color for the project's main color.
+Reference for `interface-design`. Class strings are taken from past projects; swap the color for the project's main color.
 
 ## Shared components
 
@@ -8,7 +8,7 @@ Keep one component per element and use it everywhere. Typical set: `Button`, `Li
 
 ## Button
 
-Tailwind UI primary button, kept in the project's color (sky, not indigo):
+Primary button, in the project's color (sky, not indigo):
 
 ```
 rounded-md bg-sky-600 px-2.5 py-1.5 text-sm font-semibold text-white
@@ -49,7 +49,7 @@ One generic component for every copy-to-clipboard. Heroicons `square-2-stack`, s
 
 ## Tables
 
-- Grouped-row tables (Tailwind UI "table with grouped rows") when rows belong to an owner: the group header carries the owner, and the owner column disappears.
+- Grouped-row tables (rows grouped under a header row per owner) when rows belong to an owner: the group header carries the owner, and the owner column disappears.
 - Don't use a separate column where a secondary line in the primary cell is enough (status under key, "Key" rather than "Key prefix").
 - Put the copy action next to the value it copies, not in an "Actions" column.
 
