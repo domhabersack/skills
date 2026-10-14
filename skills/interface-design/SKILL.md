@@ -45,7 +45,7 @@ The default taste for new and existing UIs. It should feel like **Tailwind UI an
 - **Actions must look like actions.** Buttons look like buttons. Links look like links.
 - Navigation links in headers: no pill backgrounds or padding. Space them with `gap` and underline on hover.
 - Use `<button>` for actions and `<a>`/`Link` for navigation.
-- **Use context menus sparingly.** Hiding a lone action in a menu is wrong until showing it makes the surface heavy (a tall card footer competing with a thumbnail); then use a menu with a three-dot trigger that is *always visible* (never hover-only, since touch has no hover) and titled for what it belongs to ("Keyframe 3").
+- **Use context menus sparingly.** Hiding a lone action in a menu is wrong until showing it makes the surface heavy (a tall card footer competing with a thumbnail); then use a menu with a three-dot trigger that is _always visible_ (never hover-only, since touch has no hover) and titled for what it belongs to ("Keyframe 3").
 - Prefer master-detail views over modals and stacked pages for related things.
 - Text labels for actions, icons as an aid (see `ui-microcopy`).
 
@@ -65,7 +65,7 @@ The default taste for new and existing UIs. It should feel like **Tailwind UI an
 - Touch targets are at least 48×48px and square when icon-only.
 - Inputs on mobile must not trigger zoom-on-focus (use at least 16px text in inputs).
 - If a horizontal scroller is needed (timeline of keyframes), show a real, easily grabbable scrollbar and make sure scrolling doesn't start a drag.
-- Settings that are a panel on large screens appear on small screens *below* the toolbar and push the page content down rather than floating above it.
+- Settings that are a panel on large screens appear on small screens _below_ the toolbar and push the page content down rather than floating above it.
 - Ensure a safe area around canvases/previews. Use the same padding as the sibling project, and at least 32px on every side.
 
 ## Accessibility

@@ -11,13 +11,13 @@ How user-facing strings are written. Apply these when adding UI and when reviewi
 
 Use **sentence case** for every UI string: headings, page titles, buttons, form labels, menu items, table columns, badges, tooltips, and select options. Capitalize only the first word and proper nouns.
 
-| Not | But |
-|---|---|
+| Not                    | But                    |
+| ---------------------- | ---------------------- |
 | Interactive Playground | Interactive playground |
-| API Key | API key |
-| Send Request | Send request |
-| View API Docs | View API docs |
-| Usage Statistics | Usage statistics |
+| API Key                | API key                |
+| Send Request           | Send request           |
+| View API Docs          | View API docs          |
+| Usage Statistics       | Usage statistics       |
 
 - Acronyms and brand names keep their own casing: API, URL, GitHub Light, GitHub Dark (capital `H`).
 - Pick one casing for the product name and use it everywhere. It must match in the logo, the `<title>`, headings, and docs. Check this when a new page is added (`Codereels`, not `CodeReels` in one place).
