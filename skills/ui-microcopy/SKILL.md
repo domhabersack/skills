@@ -26,7 +26,7 @@ Use **sentence case** for every UI string: headings, page titles, buttons, form 
 ## Typography
 
 - Use a real ellipsis `…`, never three periods `...`. Applies to "Loading…", "Search…", truncated text, and placeholders.
-- Use typographic quotes in prose: “ ” for double and ’ for apostrophes and closing single quotes (`didn’t`, `Dom’s`). Straight `"` and `'` are wrong in prose.
+- Use typographic quotes in prose: “ ” for double and ’ for apostrophes and closing single quotes (`didn’t`, `team’s`). Straight `"` and `'` are wrong in prose.
 - Write the characters literally (source files are UTF-8). Do not mix `&ldquo;`, `“`, and literal characters in the same project. Follow what the project's CLAUDE.md says; if it says nothing, use the literal characters.
 - Straight quotes stay straight in code, props, attribute values, and JSON. Only prose content gets typographic quotes.
 - When asked to normalize quotes, only touch strings that are content. Do not "fix" quotes that are already curly, and do not turn curly quotes back into straight ones.

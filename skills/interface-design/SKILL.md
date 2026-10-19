@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: How Dom designs and builds frontend interfaces (React, Next.js, Tailwind CSS, Headless UI) so they look and behave consistently. Covers visual direction, color, typography, layout and hierarchy, components, editor and panel layouts, interaction patterns, responsiveness, and accessibility. Use when creating or restyling pages, components, or app layouts, or when reviewing UI work, even if the request only says "add a page" or "make it look better".
+description: Use when creating, restyling, or reviewing frontend pages, components, or app layouts (React, Next.js, Tailwind CSS, Headless UI), including requests that only say "add a page" or "make it look better". Covers visual direction, color, typography, layout and hierarchy, components, editor and panel layouts, interaction patterns, responsiveness, and accessibility.
 ---
 
 # Interface design
