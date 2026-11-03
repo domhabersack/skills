@@ -1,5 +1,6 @@
 #!/bin/sh
-# Claude Code PostToolUse hook: formats a markdown file with the repo's Prettier right after Claude edits it.
+# Claude Code PostToolUse hook: formats a markdown file with the repo's Prettier right after Claude edits it,
+# and regenerates the agent files when an agent source changed.
 # Skips anything that is not a regular .md file inside this project. Run `npm install` once to install Prettier.
 # Failures exit with status 2 so Claude sees the message instead of the problem passing silently.
 
@@ -47,3 +48,13 @@ if ! "$prettier" --write --log-level warn "$resolved_file" >&2; then
   echo "format-markdown: Prettier failed on $file (see above)." >&2
   exit 2
 fi
+
+# Editing an agent source regenerates the Claude Code and opencode agent files.
+case "$resolved_file" in
+  "$project_directory"/src/agents/*.md)
+    if ! node scripts/build-agents.mjs >&2; then
+      echo "format-markdown: generating the agent files failed (see above)." >&2
+      exit 2
+    fi
+    ;;
+esac

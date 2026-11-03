@@ -1,7 +1,22 @@
 #!/usr/bin/env bash
-# Formats staged markdown files with Prettier and re-stages them.
+# Regenerates agent definitions when their sources change, then formats staged markdown
+# with Prettier and re-stages everything.
 # Installed via `npm install` (the `prepare` script sets core.hooksPath).
 set -euo pipefail
+
+require_prettier() {
+  if [ ! -x node_modules/.bin/prettier ]; then
+    echo "pre-commit: Prettier is not installed. Run 'npm install' first; do not bypass this hook." >&2
+    exit 1
+  fi
+}
+
+# Agents: src/agents is the source of truth for agents/ (Claude Code) and opencode/agents/ (opencode).
+if ! git diff --cached --quiet -- src/agents; then
+  require_prettier
+  node scripts/build-agents.mjs
+  git add -- agents opencode/agents
+fi
 
 # NUL-separated so names with spaces or non-ASCII characters survive. Renames are included.
 # Symlinks (such as AGENTS.md) are skipped: Prettier refuses to format them.
@@ -17,10 +32,7 @@ if [ ${#staged_files[@]} -eq 0 ]; then
   exit 0
 fi
 
-if [ ! -x node_modules/.bin/prettier ]; then
-  echo "pre-commit: Prettier is not installed. Run 'npm install' first; do not bypass this hook." >&2
-  exit 1
-fi
+require_prettier
 
 # Re-staging a partially staged file would stage changes that were left out on purpose.
 partially_staged=()
