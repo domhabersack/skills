@@ -1,15 +1,15 @@
 ---
 name: ui-microcopy
-description: Rules for the words and typography inside a user interface, such as buttons, labels, headings, menus, badges, tooltips, placeholders, option names, and docs page copy. Use whenever writing, renaming, or reviewing any user-facing string in an app, including when building new UI, because casing, quotes, ellipses, action wording, and generic, generated-sounding marketing phrasing are easy to get subtly wrong.
+description: Clean up writing in prose and user interfaces by replacing generic, generated-sounding phrasing with clear wording.
 ---
 
 # UI microcopy
 
-How user-facing strings are written. Apply these when adding UI and when reviewing a diff that touches strings. When renaming something, apply the new wording everywhere it appears (logo, `<title>`, nav, docs, badges, tests), not only in the file at hand.
+How user-facing strings are written. Apply these when adding UI and reviewing diffs that touch strings. When renaming something, apply the new wording everywhere it appears (e.g. in content, navigation, documentation, tests), not only in the file at hand.
 
 ## Casing
 
-Use **sentence case** for every UI string: headings, page titles, buttons, form labels, menu items, table columns, badges, tooltips, and select options. Capitalize only the first word and proper nouns.
+Use **sentence case** for all UI strings, including headings, page titles, buttons, form labels, navigation items, and select options. Capitalize only the first word and proper nouns.
 
 | Not                    | But                    |
 | ---------------------- | ---------------------- |
@@ -19,66 +19,59 @@ Use **sentence case** for every UI string: headings, page titles, buttons, form 
 | View API Docs          | View API docs          |
 | Usage Statistics       | Usage statistics       |
 
-- Acronyms and brand names keep their own casing: API, URL, GitHub Light, GitHub Dark (capital `H`).
-- Pick one casing for the product name and use it everywhere. It must match in the logo, the `<title>`, headings, and docs. Check this when a new page is added (`Codereels`, not `CodeReels` in one place).
+- Acronyms and brand names keep their own casing: API, URL, GitHub (capital `H`).
+- Pick one casing for the product name and use it consistently. It must match in the logo, `<title>`, headings, and docs. Check this when a new page is added.
 - Never use `text-transform: uppercase` for group titles or labels.
 
 ## Typography
 
-- Use a real ellipsis `…`, never three periods `...`. Applies to "Loading…", "Search…", truncated text, and placeholders.
-- Use typographic quotes in prose: “ ” for double and ’ for apostrophes and closing single quotes (`didn’t`, `team’s`). Straight `"` and `'` are wrong in prose.
-- Write the characters literally (source files are UTF-8). Do not mix `&ldquo;`, `“`, and literal characters in the same project. Follow what the project's CLAUDE.md says; if it says nothing, use the literal characters.
+- Use a real ellipsis (`…`), never three periods (`...`). Applies to "Loading…", "Search…", truncated text, and placeholders.
+- Use typographic quotes (`“` and `”` for double quotes, `’` for apostrophes and closing single quotes) in prose, e.g. `didn’t`, `team’s`. Straight quotes (`"`, `'`) are wrong in prose.
+- Source files are UTF-8. Write characters literally. Do not mix `&ldquo;`, `“`, and literal characters. Follow what the project’s `CLAUDE.md` says; if it says nothing, use literal characters.
 - Straight quotes stay straight in code, props, attribute values, and JSON. Only prose content gets typographic quotes.
-- When asked to normalize quotes, only touch strings that are content. Do not "fix" quotes that are already curly, and do not turn curly quotes back into straight ones.
-- Put the unit with the value, not in a separate label: show units as a read-only add-on on the input (`px`, `s`, `%`), and do not repeat the value above the field.
+- When asked to normalize quotes, only touch strings that are content. Do not “fix” quotes that are already curly, and do not turn curly quotes back into straight ones.
 
 ## Actions
 
 - **Actions get text labels.** Icons may accompany text but never replace it, unless the user explicitly asked for an icon-only control.
-- If an icon-only control is requested, give it an accessible name via `title` and `aria-label`, for example a trash icon with `title="Delete"`, or play/pause with the label in `title` so the layout doesn't shift when the state flips.
-- Start with a verb that names the result: "Download" (not "Export" when it downloads a file), "Undo" (not "Revert this change"), "Upgrade to Pro", "Send request", "Add keyframe".
-- Toggle-like actions name the next state: a control that shows or hides something reads "Show" or "Hide" and flips.
-- Switches are labeled with what they turn on, as "Show line numbers" or "Show window controls". Put the switch to the left of its label. If the effect is not obvious, add a muted description line below it.
-- Menu triggers are named for what is in them ("File", "View"), never just "Menu". Do not put icons in menu items when the words are enough.
+- If an icon-only control is requested, give it an accessible name via `title` and `aria-label`, for example a trash icon with `title="Delete"`, or play/pause with the label in `title` so the layout doesn’t shift when the state flips.
+- Start with a verb that names the result: “Download” (not “Export” when it downloads a file), “Undo” (not “Revert this change”), “Upgrade to Pro”, “Send request”, “Add keyframe”.
+- Toggle-like actions name the next state: a control that shows or hides something reads “Show” or “Hide” and flips.
+- Switches are labeled with what they turn on, not what they turn off: “Show line numbers” (not “Hide line numbers”).
+- Menu triggers are named for what is in them: “File”, “View” (never just “Menu”).
 - Do not mix a verb and a noun for the same kind of thing in one list.
 
 ## Labels, headings, and names
 
-- Label the user's concept, not the implementation. A gradient picker that sets the backdrop is "Background". "Key" instead of "Key prefix". "Square" instead of "1:1".
-- Name things with the product's own noun: the overview of reels is "Your reels", not "Your projects".
-- Remove headings that only restate the obvious (a settings panel with sections "Frame", "Code", "Canvas" gets no headings). Prefer no group title over a decorative one.
-- Merge a heading and its count into one title when they describe the same thing: "2 unpublished changes", not a heading plus "Changes (2)".
-- Labels should fit on one line at the narrowest supported width. Shorten the wording before allowing a wrap ("Window controls", not a two-line label).
-- Anything that appears in two places (a badge on a card and a select option in the editor) comes from one label map. Never retype the string.
-- Number things for people: 1-indexed ("Keyframe 1", "Keyframe 2"), and use those same strings as tooltips and titles.
-- Compact metadata: put secondary values in parentheses rather than joining with middle dots, e.g. `3 keyframes (4.9s)`.
-- Lists of allowed values in docs: write "One of:" followed by monospaced values, the way the `format` option is documented. Do not use "options:" with a bullet list.
+- Label the user’s concept, not the implementation: “Background” (not “Gradient” for a gradient picker that sets the backdrop), “Square” (not “1:1”).
+- Name things with the product’s own noun: “Your reels” (not “Your projects”).
+- Merge a string and its count into one unit when they describe the same thing: “2 unpublished changes” (not “Changes (2)”).
+- Number things 1-indexed for people even if the underlying data is 0-indexed: “Keyframe 1” for the first keyframe (not “Keyframe 0”).
+- Compact metadata by putting secondary values in parentheses rather than joining with middle dots: “3 keyframes (4.9s)” (not “3 keyframes ・ 4.9s”).
+
+## Minimizers
+
+- Do not use words like “only”, “just”, “simply”, “easily”, “merely”, or “quickly” to make tasks, claims, or requests sound smaller than they are. They do not add information. Write instructions plainly and clearly: “Click Save” (not “Simply click save”).
+- Keep “only” when it actually restricts meaning: “Only admins can delete files” (not “I only wanted to ask…”).
+- When unsure, delete the minimizer and see if the meaning changes. If it does not, it was an unnecessary filler word.
 
 ## Avoid generated-sounding copy
 
-Patterns that are fine on their own but are so common in AI-generated interfaces that readers recognize them and skip the text. Say what the thing does, plainly.
+Readers recognize and skip patterns that are common in AI-generated interfaces. Avoid them.
 
-- **No hype words.** Don’t write unlock, supercharge, seamless, elevate, effortless, next-level, or similar. State what the product does and for whom.
-  - Not "Supercharge your workflow", but "Paste a snippet and get an image sized for social posts."
-- **No staged reveals.** Avoid "It’s not just X, it’s Y", "Not X. Y.", dramatic dash reveals, and rhetorical questions as headings. A few of them make a page read as generated. Make the point in one direct sentence.
-  - Not "It’s not just a screenshot tool. It’s a whole new way to share code.", but "Codeshots turns a snippet into an image you can post."
-- **No made-up stats.** A row of round numbers like 10x, 99.9%, or 24/7 with no source looks filled in. Show a real number with what it measures ("1,284 screenshots shared last week"), or show none.
-- **No label above a heading.** Don’t put a small kicker or eyebrow label ("PRICING", "FEATURES") above every heading. A good heading says what follows on its own, and the labels turn into noise.
-- **No emoji as decoration.** Emoji don’t replace icons, bullets, or section markers, so don’t start headings or list items with rockets or sparkles. Use plain text, or an icon where it helps scanning.
-- **No announcement pill.** Don’t put a "✨ New" pill with an arrow above the headline. If there is real news, put it in the headline or in a proper banner.
-
-## Status words
-
-Use short, consistent state words: Draft, Published, Unpublished changes, Locked, Active, Revoked. A new item shows "Draft". Saved state is "Last saved" plus a timestamp.
+- Do not use hype words. Say what the product does and for whom, plainly. Do not write “unlock”, “supercharge”, “seamless”, “elevate”, “effortless”, “next-level”, or “similar”: “Generate images from code snippets” (not “Supercharge your workflow”).
+- Do not write staged reveals. Avoid “It’s not just X, it’s Y”, “Not X. Y.”, dramatic dash reveals, and rhetorical questions as headings. Make the point in one direct sentence: “Codeshots turns snippets into images you can post” (not “It’s not just a screenshot tool. It’s a whole new way to share code.”)
+- Do not advertise made-up stats. Round numbers like 10x or 99.9% with no source look filled in. Remove those fake values or show real numbers with what they measure: “1,284 screenshots shared last week” (not “thousands of images shared”).
+- Do not add labels above headings. Do not put small kicker or eyebrow labels (e.g. “PRICING”, “FEATURES”) above headings. A good heading says what follows on its own, and the labels turn into noise.
+- Do not use emoji as decoration. They do not replace icons, bullets, or section markers. Do not start headings or list items with them. Use plain text, or an icon where it helps scanning.
 
 ## Placeholders and examples
 
-- Placeholder values look like placeholders: `YOUR_API_KEY`, not a fake string that resembles a real prefix (`csyour_api_key_here`).
-- Demo and preview text that exists to show a difference (theme thumbnails, font previews) uses different colors and varied text so the differences are visible at a glance.
+- Placeholder values look like placeholders in `SCREAMING_SNAKE_CASE` instead of fake strings that resemble real values: `YOUR_API_KEY` (not `csyour_api_key_here`).
 
 ## Errors and empty states
 
-- Say what happened and what the person can do next. Include the real cause when it is known, for example the validation message or a missing field, and not just "Something went wrong".
+- Say what happened and what the person can do next. Include the real cause when it is known, for example the validation message or a missing field, and not just “Something went wrong”.
 - Empty states say what goes here and offer the action that fills it.
 
 ## Checklist before finishing
@@ -86,7 +79,6 @@ Use short, consistent state words: Draft, Published, Unpublished changes, Locked
 1. Every new or changed string is in sentence case, with acronyms and brands intact.
 2. No `...` and no straight quotes in prose.
 3. Every action has a visible text label (or an explicit exception with `title` and `aria-label`).
-4. Names match across the app: nav, headings, `<title>`, badges, selects, docs, tests.
-5. Strings that repeat come from one source.
-6. No hype words, staged reveals, invented numbers, eyebrow labels, or decorative emoji.
-7. Search the codebase for the old wording if anything was renamed.
+4. Names match across the app: nav, headings, `<title>`, selects, docs, tests.
+5. No hype words, staged reveals, invented numbers, eyebrow labels, or decorative emoji.
+6. Search the codebase for the old wording if anything was renamed.
