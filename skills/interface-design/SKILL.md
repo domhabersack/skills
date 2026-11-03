@@ -23,6 +23,17 @@ The default taste for new and existing UIs. It should follow the guidelines laid
 - Dark mode is optional but appreciated. When a project is light-only, keep it consistently light (including menus and popovers).
 - Embrace empty space; do not fill a panel for the sake of using it. If a panel has nothing to show (nothing selected), remove it from the layout rather than rendering it empty.
 
+## Avoid generated-looking UI
+
+Patterns that are fine on their own but so overused in AI-generated interfaces that they make a design look generated. These apply to the interface itself, not to content the product produces for users (theme previews, gradient swatches, generated images). For the matching rules for copy, see `ui-microcopy`.
+
+- **No gradient text.** Headlines are one solid, high-contrast color. Violet-to-pink gradient text is the most recognizable sign of a generated page, and it lowers contrast.
+- **No glowing blobs.** Don’t place blurred, colored circles behind content. They add mood without information and muddy the background. Put content on a calm, plain background.
+- **No frosted glass cards.** Translucent, blurred cards over colorful backgrounds look striking in a screenshot but hurt contrast and legibility. Give cards a solid surface. Blur is only for sticky bars that scroll over content.
+- **No colored side stripes.** Don’t mark cards or callouts with a thick colored border down one side. Tint the background and add an icon instead.
+- **No icon tile on every card.** A grid of cards that each open with an icon in a colored rounded square is the default generated feature section. Lead with a clear title and one concrete sentence, and use icons only where they help.
+- **No glowing gradient buttons.** Buttons are solid. Gradients and colored glow shadows make a button shout, and nothing else on the page can compete with it. Use one solid brand color for the primary button.
+
 ## Color
 
 - Each project has **one main color** taken from the default Tailwind palette (sky for codeshots and graphite). Avoid AI indigo, default violet, and other overused choices. If told "there is too much violet", look for leaks in toggles, focus rings, and badges.
