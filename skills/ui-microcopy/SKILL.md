@@ -1,6 +1,6 @@
 ---
 name: ui-microcopy
-description: Rules for the words and typography inside a user interface, such as buttons, labels, headings, menus, badges, tooltips, placeholders, option names, and docs page copy. Use whenever writing, renaming, or reviewing any user-facing string in an app, including when building new UI, because casing, quotes, ellipses, and action wording are easy to get subtly wrong.
+description: Rules for the words and typography inside a user interface, such as buttons, labels, headings, menus, badges, tooltips, placeholders, option names, and docs page copy. Use whenever writing, renaming, or reviewing any user-facing string in an app, including when building new UI, because casing, quotes, ellipses, action wording, and generic, generated-sounding marketing phrasing are easy to get subtly wrong.
 ---
 
 # UI microcopy
@@ -54,6 +54,19 @@ Use **sentence case** for every UI string: headings, page titles, buttons, form 
 - Compact metadata: put secondary values in parentheses rather than joining with middle dots, e.g. `3 keyframes (4.9s)`.
 - Lists of allowed values in docs: write "One of:" followed by monospaced values, the way the `format` option is documented. Do not use "options:" with a bullet list.
 
+## Avoid generated-sounding copy
+
+Patterns that are fine on their own but are so common in AI-generated interfaces that readers recognize them and skip the text. Say what the thing does, plainly.
+
+- **No hype words.** Don’t write unlock, supercharge, seamless, elevate, effortless, next-level, or similar. State what the product does and for whom.
+  - Not "Supercharge your workflow", but "Paste a snippet and get an image sized for social posts."
+- **No staged reveals.** Avoid "It’s not just X, it’s Y", "Not X. Y.", dramatic dash reveals, and rhetorical questions as headings. A few of them make a page read as generated. Make the point in one direct sentence.
+  - Not "It’s not just a screenshot tool. It’s a whole new way to share code.", but "Codeshots turns a snippet into an image you can post."
+- **No made-up stats.** A row of round numbers like 10x, 99.9%, or 24/7 with no source looks filled in. Show a real number with what it measures ("1,284 screenshots shared last week"), or show none.
+- **No label above a heading.** Don’t put a small kicker or eyebrow label ("PRICING", "FEATURES") above every heading. A good heading says what follows on its own, and the labels turn into noise.
+- **No emoji as decoration.** Emoji don’t replace icons, bullets, or section markers, so don’t start headings or list items with rockets or sparkles. Use plain text, or an icon where it helps scanning.
+- **No announcement pill.** Don’t put a "✨ New" pill with an arrow above the headline. If there is real news, put it in the headline or in a proper banner.
+
 ## Status words
 
 Use short, consistent state words: Draft, Published, Unpublished changes, Locked, Active, Revoked. A new item shows "Draft". Saved state is "Last saved" plus a timestamp.
@@ -75,4 +88,5 @@ Use short, consistent state words: Draft, Published, Unpublished changes, Locked
 3. Every action has a visible text label (or an explicit exception with `title` and `aria-label`).
 4. Names match across the app: nav, headings, `<title>`, badges, selects, docs, tests.
 5. Strings that repeat come from one source.
-6. Search the codebase for the old wording if anything was renamed.
+6. No hype words, staged reveals, invented numbers, eyebrow labels, or decorative emoji.
+7. Search the codebase for the old wording if anything was renamed.
