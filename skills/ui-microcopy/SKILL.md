@@ -64,6 +64,7 @@ Readers recognize and skip patterns that are common in AI-generated interfaces. 
 - Do not advertise made-up stats. Round numbers like 10x or 99.9% with no source look filled in. Remove those fake values or show real numbers with what they measure: “1,284 screenshots shared last week” (not “thousands of images shared”).
 - Do not add labels above headings. Do not put small kicker or eyebrow labels (e.g. “PRICING”, “FEATURES”) above headings. A good heading says what follows on its own, and the labels turn into noise.
 - Do not use emoji as decoration. They do not replace icons, bullets, or section markers. Do not start headings or list items with them. Use plain text, or an icon where it helps scanning.
+- Do not use em dashes (—). They are one of the most common signs of generated text, and they usually join two thoughts that read better as separate sentences. Use a period, comma, colon, or parentheses: “The editor autosaves, so you never lose work” (not “The editor autosaves — you never lose work”).
 
 ## Placeholders and examples
 
@@ -84,5 +85,5 @@ When asked to review rather than write, quote each offending string, name the ru
 2. No `...` and no straight quotes in prose.
 3. Every action has a visible text label (or an explicit exception with `title` and `aria-label`).
 4. Names match across the app: nav, headings, `<title>`, selects, docs, tests.
-5. No hype words, staged reveals, invented numbers, eyebrow labels, decorative emoji, or minimizers like “just” and “simply”.
+5. No hype words, staged reveals, invented numbers, eyebrow labels, decorative emoji, em dashes, or minimizers like “just” and “simply”.
 6. Search the codebase for the old wording if anything was renamed.
