@@ -19,6 +19,12 @@ npx skills add domhabersack/skills
 
 skills.sh only installs skills. Subagents in `agents/` are Claude Code-specific and come with the plugin.
 
+## Skills
+
+| Skill              | What it covers                                                                                  |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| `interface-design` | Visual direction, components, layout, interaction, and responsive rules for frontend interfaces |
+
 ## Layout
 
 ```
