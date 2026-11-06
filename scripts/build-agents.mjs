@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-// Generates subagent definitions for each supported tool from one neutral source file.
+// Generates opencode subagent definitions from the Claude Code ones.
 //
-//   src/agents/<name>.md  ->  agents/<name>.md           (Claude Code, also served by the plugin)
-//                         ->  opencode/agents/<name>.md  (opencode v2)
+//   agents/<name>.md  ->  opencode/agents/<name>.md  (opencode v2)
+//
+// agents/ is the source of truth and is also what the Claude Code plugin serves.
 //
 // Usage:
 //   node scripts/build-agents.mjs            write generated files
@@ -15,15 +16,19 @@ import { fileURLToPath } from 'node:url'
 import { format, resolveConfig } from 'prettier'
 import { parse, stringify } from 'yaml'
 
-const SOURCE_DIRECTORY = 'src/agents'
-const CLAUDE_DIRECTORY = 'agents'
+const SOURCE_DIRECTORY = 'agents'
 const OPENCODE_DIRECTORY = 'opencode/agents'
 
 const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
-const ALLOWED_KEYS = ['name', 'description', 'tools', 'model', 'opencode-model']
-const CLAUDE_MODELS = ['inherit', 'sonnet', 'opus', 'haiku']
 
-// Claude Code tool names (the source vocabulary) and the opencode v2 permission action each one maps to.
+// Keys the generator translates for opencode.
+const TRANSLATED_KEYS = ['name', 'description', 'tools']
+
+// Claude Code keys left out of the opencode agent because they cannot change what it may do. opencode agents never
+// get a model: each machine picks one in its own opencode config, so the repository stays free of local model names.
+const DROPPED_KEYS = ['model', 'color']
+
+// Claude Code tool names and the opencode v2 permission action each one maps to.
 const OPENCODE_ACTION_BY_TOOL = {
   Read: 'read',
   Grep: 'grep',
@@ -51,6 +56,26 @@ function fail(message) {
   process.exit(1)
 }
 
+// Claude Code writes tools as a comma-separated string; a YAML list is accepted too.
+function parseTools(path, tools) {
+  const list = typeof tools === 'string' ? tools.split(',').map((tool) => tool.trim()) : tools
+
+  if (!Array.isArray(list) || list.length === 0 || list.some((tool) => typeof tool !== 'string' || tool === '')) {
+    fail(`${path}: "tools" must be a non-empty, comma-separated list (omit it to allow all tools)`)
+  }
+
+  // Anything unmapped (MCP tools, Agent(type) restrictions, …) would silently widen or narrow opencode's permissions.
+  const unknownTools = list.filter((tool) => !(tool in OPENCODE_ACTION_BY_TOOL))
+
+  if (unknownTools.length > 0) {
+    fail(
+      `${path}: no opencode equivalent for tools: ${unknownTools.join(', ')} (known: ${Object.keys(OPENCODE_ACTION_BY_TOOL).join(', ')}). Add a mapping to scripts/build-agents.mjs.`,
+    )
+  }
+
+  return list
+}
+
 function parseSource(path) {
   const name = basename(path, '.md')
   const match = readFileSync(path, 'utf8').match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
@@ -60,10 +85,17 @@ function parseSource(path) {
   }
 
   const frontmatter = parse(match[1]) ?? {}
-  const unknownKeys = Object.keys(frontmatter).filter((key) => !ALLOWED_KEYS.includes(key))
 
-  if (unknownKeys.length > 0) {
-    fail(`${path}: unknown frontmatter keys: ${unknownKeys.join(', ')} (allowed: ${ALLOWED_KEYS.join(', ')})`)
+  // Fail rather than drop: keys like permissionMode, disallowedTools, mcpServers, or hooks change what the agent
+  // may do, and an opencode agent without them would quietly behave differently from the Claude Code one.
+  const untranslatableKeys = Object.keys(frontmatter).filter(
+    (key) => !TRANSLATED_KEYS.includes(key) && !DROPPED_KEYS.includes(key),
+  )
+
+  if (untranslatableKeys.length > 0) {
+    fail(
+      `${path}: no opencode equivalent for: ${untranslatableKeys.join(', ')}. Remove them, or teach scripts/build-agents.mjs to translate them (supported: ${[...TRANSLATED_KEYS, ...DROPPED_KEYS].join(', ')}).`,
+    )
   }
 
   if (!NAME_PATTERN.test(name)) {
@@ -78,52 +110,14 @@ function parseSource(path) {
     fail(`${path}: "description" is required`)
   }
 
-  if (frontmatter.tools !== undefined) {
-    if (!Array.isArray(frontmatter.tools) || frontmatter.tools.length === 0) {
-      fail(`${path}: "tools" must be a non-empty list (omit it to allow all tools)`)
-    }
+  const tools = frontmatter.tools === undefined ? undefined : parseTools(path, frontmatter.tools)
 
-    const unknownTools = frontmatter.tools.filter((tool) => !(tool in OPENCODE_ACTION_BY_TOOL))
-
-    if (unknownTools.length > 0) {
-      fail(`${path}: unknown tools: ${unknownTools.join(', ')} (known: ${Object.keys(OPENCODE_ACTION_BY_TOOL).join(', ')})`)
-    }
-  }
-
-  if (frontmatter.model !== undefined && !CLAUDE_MODELS.includes(frontmatter.model)) {
-    fail(`${path}: "model" must be one of ${CLAUDE_MODELS.join(', ')}`)
-  }
-
-  return { ...frontmatter, body: match[2].trim() }
-}
-
-function renderDocument(frontmatter, source) {
-  const notice = `<!-- Generated from ${SOURCE_DIRECTORY}/${source.name}.md by scripts/build-agents.mjs. Do not edit. -->`
-
-  return `---\n${stringify(frontmatter, { lineWidth: 0 })}---\n\n${notice}\n\n${source.body}\n`
-}
-
-function renderClaude(source) {
-  const frontmatter = { name: source.name, description: source.description }
-
-  if (source.tools) {
-    frontmatter.tools = source.tools.join(', ')
-  }
-
-  if (source.model) {
-    frontmatter.model = source.model
-  }
-
-  return renderDocument(frontmatter, source)
+  return { ...frontmatter, tools, body: match[2].trim() }
 }
 
 function renderOpencode(source) {
   // The agent id comes from the file name, so there is no "name" field.
   const frontmatter = { description: source.description, mode: 'subagent' }
-
-  if (source['opencode-model']) {
-    frontmatter.model = source['opencode-model']
-  }
 
   if (source.tools) {
     const allowedActions = [...new Set(source.tools.map((tool) => OPENCODE_ACTION_BY_TOOL[tool]))]
@@ -135,7 +129,9 @@ function renderOpencode(source) {
     ]
   }
 
-  return renderDocument(frontmatter, source)
+  const notice = `<!-- Generated from ${SOURCE_DIRECTORY}/${source.name}.md by scripts/build-agents.mjs. Do not edit. -->`
+
+  return `---\n${stringify(frontmatter, { lineWidth: 0 })}---\n\n${notice}\n\n${source.body}\n`
 }
 
 async function prettify(path, content) {
@@ -152,20 +148,13 @@ function listMarkdownFiles(directory) {
   return readdirSync(directory).filter((file) => file.endsWith('.md'))
 }
 
-const sourceDirectory = join(root, SOURCE_DIRECTORY)
 const expected = new Map()
 
-for (const file of listMarkdownFiles(sourceDirectory)) {
-  const source = parseSource(join(sourceDirectory, file))
+for (const file of listMarkdownFiles(join(root, SOURCE_DIRECTORY))) {
+  const source = parseSource(join(root, SOURCE_DIRECTORY, file))
+  const path = join(root, OPENCODE_DIRECTORY, file)
 
-  for (const [directory, render] of [
-    [CLAUDE_DIRECTORY, renderClaude],
-    [OPENCODE_DIRECTORY, renderOpencode],
-  ]) {
-    const path = join(root, directory, file)
-
-    expected.set(path, await prettify(path, render(source)))
-  }
+  expected.set(path, await prettify(path, renderOpencode(source)))
 }
 
 const problems = []
@@ -185,19 +174,17 @@ for (const [path, content] of expected) {
   }
 }
 
-for (const directory of [CLAUDE_DIRECTORY, OPENCODE_DIRECTORY]) {
-  for (const file of listMarkdownFiles(join(root, directory))) {
-    const path = join(root, directory, file)
+for (const file of listMarkdownFiles(join(root, OPENCODE_DIRECTORY))) {
+  const path = join(root, OPENCODE_DIRECTORY, file)
 
-    if (expected.has(path)) {
-      continue
-    }
+  if (expected.has(path)) {
+    continue
+  }
 
-    problems.push(`stale (no source): ${path}`)
+  problems.push(`stale (no source): ${path}`)
 
-    if (!isCheck) {
-      unlinkSync(path)
-    }
+  if (!isCheck) {
+    unlinkSync(path)
   }
 }
 

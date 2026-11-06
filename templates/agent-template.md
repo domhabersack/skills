@@ -1,7 +1,7 @@
 ---
 name: agent-name
 description: When the agent should be delegated to. Be specific; this is what the tool matches against.
-tools: [Read, Grep, Glob]
+tools: Read, Grep, Glob
 model: inherit
 ---
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerates agent definitions when their sources change, then formats staged markdown
+# Regenerates the opencode agents when the Claude Code agents change, then formats staged markdown
 # with Prettier and re-stages everything.
 # Installed via `npm install` (the `prepare` script sets core.hooksPath).
 set -euo pipefail
@@ -11,11 +11,11 @@ require_prettier() {
   fi
 }
 
-# Agents: src/agents is the source of truth for agents/ (Claude Code) and opencode/agents/ (opencode).
-if ! git diff --cached --quiet -- src/agents; then
+# Agents: agents/ (Claude Code) is the source of truth for opencode/agents/ (opencode).
+if ! git diff --cached --quiet -- agents; then
   require_prettier
   node scripts/build-agents.mjs
-  git add -- agents opencode/agents
+  git add -- opencode/agents
 fi
 
 # NUL-separated so names with spaces or non-ASCII characters survive. Renames are included.
