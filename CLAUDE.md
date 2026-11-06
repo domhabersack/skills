@@ -3,7 +3,7 @@
 This repo is both a skills.sh source and a Claude Code plugin marketplace (single plugin, `source: "./"`).
 
 - Skills live in `skills/<name>/SKILL.md`. The directory name must equal the `name` frontmatter field. Names are kebab-case.
-- Subagents live in `agents/<name>.md`. The filename must equal the `name` frontmatter field.
+- Subagents live in `agents/<name>.md` as regular Claude Code subagents (supported keys in README). The filename must equal the `name` frontmatter field. `opencode/agents/` is generated from them: never edit it by hand, run `npm run build:agents`, and commit the generated files. CI runs `npm run check:agents`.
 - `templates/` holds starting points only; never put real skills or agents there.
 - Keep each skill's `description` specific about when to trigger; it decides whether the skill loads.
 - Bump `version` in `.claude-plugin/plugin.json` when releasing changes.
