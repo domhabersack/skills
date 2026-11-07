@@ -76,7 +76,7 @@ function parseTools(path, tools) {
   }
 
   // Anything unmapped (MCP tools, Agent(type) restrictions, …) would silently widen or narrow opencode's permissions.
-  const unknownTools = list.filter((tool) => !(tool in OPENCODE_ACTION_BY_TOOL))
+  const unknownTools = list.filter((tool) => !Object.hasOwn(OPENCODE_ACTION_BY_TOOL, tool))
 
   if (unknownTools.length > 0) {
     fail(
