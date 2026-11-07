@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const script = join(dirname(fileURLToPath(import.meta.url)), 'build-agents.mjs')
+const repository = join(dirname(script), '..')
 
 // Creates a throwaway repository root containing the given files ({ 'agents/x.md': '...' }).
 function createRoot(files = {}) {
@@ -142,4 +143,57 @@ test('refuses to delete hand-written files in opencode/agents', () => {
   assert.equal(result.status, 1)
   assert.match(result.stderr, /opencode\/agents\/README\.md: not generated from agents\//)
   assert.equal(readFileSync(join(root, 'opencode/agents/README.md'), 'utf8'), '# Notes\n')
+})
+
+// A git repository with this repository's pre-commit hook and generator, for testing what a commit contains.
+function createRepository() {
+  const root = createRoot()
+
+  for (const file of ['.githooks/pre-commit', 'scripts/build-agents.mjs', '.prettierrc.json', '.editorconfig']) {
+    mkdirSync(dirname(join(root, file)), { recursive: true })
+    copyFileSync(join(repository, file), join(root, file))
+  }
+
+  symlinkSync(join(repository, 'node_modules'), join(root, 'node_modules'))
+
+  const run = (...args) => {
+    // Drop GIT_DIR and friends so the commands act on this repository even when the tests run inside a git hook.
+    const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
+
+    return spawnSync('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.com', ...args], {
+      cwd: root,
+      encoding: 'utf8',
+      env,
+    })
+  }
+
+  run('init', '-q')
+  run('config', 'core.hooksPath', '.githooks')
+  writeFileSync(join(root, '.gitignore'), 'node_modules\n')
+  run('add', '-A')
+  run('commit', '-q', '-m', 'init')
+
+  return { root, run }
+}
+
+test('pre-commit does not commit opencode agents generated from untracked agents', () => {
+  const { root, run } = createRepository()
+
+  writeFileSync(join(root, 'agents/rev.md'), agent('name: rev\ndescription: Reviews.\ntools: Read'))
+  writeFileSync(join(root, 'agents/wip.md'), agent('name: wip\ndescription: Unfinished.\ntools: Read, Bash, Edit'))
+  run('add', 'agents/rev.md')
+  run('commit', '-q', '-m', 'add rev')
+
+  assert.doesNotMatch(run('ls-tree', '-r', '--name-only', 'HEAD').stdout, /opencode\/agents\/wip\.md/)
+})
+
+test('pre-commit does not stage permissions from unstaged agent changes', () => {
+  const { root, run } = createRepository()
+
+  writeFileSync(join(root, 'agents/rev.md'), agent('name: rev\ndescription: Reviews.\ntools: Read'))
+  run('add', 'agents/rev.md')
+  writeFileSync(join(root, 'agents/rev.md'), agent('name: rev\ndescription: Reviews.\ntools: Read, Bash'))
+  run('commit', '-q', '-m', 'add rev')
+
+  assert.doesNotMatch(run('show', ':opencode/agents/rev.md').stdout, /shell/)
 })
