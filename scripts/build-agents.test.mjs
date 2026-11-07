@@ -70,3 +70,21 @@ test('rejects names of opencode built-in agents, which the generated agent would
     assert.match(result.stderr, /built-in opencode agent/, name)
   }
 })
+
+test('denies subagents and questions to agents without a tools list, like opencode’s built-in general agent', () => {
+  const root = createRoot({ 'agents/helper.md': agent('name: helper\ndescription: Helps.') })
+
+  assert.equal(build(root).status, 0)
+  assert.match(
+    readFileSync(join(root, 'opencode/agents/helper.md'), 'utf8'),
+    /permissions:\n {2}- action: question\n {4}resource: "\*"\n {4}effect: deny\n {2}- action: subagent\n {4}resource: "\*"\n {4}effect: deny\n---/,
+  )
+})
+
+test('rejects the Agent tool, because Claude Code subagents cannot start subagents', () => {
+  const root = createRoot({ 'agents/lead.md': agent('name: lead\ndescription: Leads.\ntools: Read, Agent') })
+  const result = build(root)
+
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /no opencode equivalent for tools: Agent/)
+})
