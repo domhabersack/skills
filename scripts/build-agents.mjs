@@ -33,7 +33,8 @@ const TRANSLATED_KEYS = ['name', 'description', 'tools']
 const DROPPED_KEYS = ['model', 'color']
 
 // Claude Code tool names and the opencode v2 permission action each one maps to. Agent is left out on purpose: Claude
-// Code subagents cannot start subagents, so allowing it in opencode would grant more than the original has.
+// Code subagents cannot start subagents, so allowing it in opencode would grant more than the original has. So is
+// NotebookEdit: opencode's edit permission covers every file, not only notebooks.
 const OPENCODE_ACTION_BY_TOOL = {
   Read: 'read',
   Grep: 'grep',
@@ -41,7 +42,6 @@ const OPENCODE_ACTION_BY_TOOL = {
   Edit: 'edit',
   MultiEdit: 'edit',
   Write: 'edit',
-  NotebookEdit: 'edit',
   Bash: 'shell',
   WebFetch: 'webfetch',
   WebSearch: 'websearch',
