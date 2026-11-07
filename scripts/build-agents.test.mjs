@@ -134,3 +134,12 @@ test('reports invalid YAML with the file path instead of a stack trace', () => {
   assert.match(result.stderr, /^build-agents: .*agents\/colon\.md: invalid YAML frontmatter: /)
   assert.doesNotMatch(result.stderr, /\n\s+at /)
 })
+
+test('refuses to delete hand-written files in opencode/agents', () => {
+  const root = createRoot({ 'opencode/agents/README.md': '# Notes\n' })
+  const result = build(root)
+
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /opencode\/agents\/README\.md: not generated from agents\//)
+  assert.equal(readFileSync(join(root, 'opencode/agents/README.md'), 'utf8'), '# Notes\n')
+})
