@@ -51,6 +51,15 @@ permissions:
   - action: shell
     resource: "*"
     effect: allow
+  - action: read
+    resource: "*.env"
+    effect: ask
+  - action: read
+    resource: "*.env.*"
+    effect: ask
+  - action: read
+    resource: "*.env.example"
+    effect: allow
 ---
 
 <!-- Generated from agents/reviewer.md by scripts/build-agents.mjs. Do not edit. -->

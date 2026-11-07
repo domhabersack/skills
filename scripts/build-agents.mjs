@@ -48,6 +48,13 @@ const OPENCODE_ACTION_BY_TOOL = {
   Skill: 'skill',
 }
 
+// The last matching rule wins, so a read allow overrides opencode's default .env protection unless it is repeated.
+const ENV_FILE_READ_RULES = [
+  { action: 'read', resource: '*.env', effect: 'ask' },
+  { action: 'read', resource: '*.env.*', effect: 'ask' },
+  { action: 'read', resource: '*.env.example', effect: 'allow' },
+]
+
 const isCheck = process.argv.includes('--check')
 const rootFlagIndex = process.argv.indexOf('--root')
 const root =
@@ -134,6 +141,7 @@ function renderOpencode(source) {
     frontmatter.permissions = [
       { action: '*', resource: '*', effect: 'deny' },
       ...allowedActions.map((action) => ({ action, resource: '*', effect: 'allow' })),
+      ...(allowedActions.includes('read') ? ENV_FILE_READ_RULES : []),
     ]
   } else {
     // Without a tools list Claude Code allows everything a subagent can do, which excludes starting subagents. Same
