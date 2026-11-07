@@ -21,6 +21,10 @@ const OPENCODE_DIRECTORY = 'opencode/agents'
 
 const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
 
+// A file with the same name replaces opencode's own agent, which would break its default agents for anyone who links
+// the generated files globally.
+const OPENCODE_BUILT_IN_AGENTS = ['build', 'plan', 'general', 'explore', 'compaction', 'summary', 'title']
+
 // Keys the generator translates for opencode.
 const TRANSLATED_KEYS = ['name', 'description', 'tools']
 
@@ -100,6 +104,10 @@ function parseSource(path) {
 
   if (!NAME_PATTERN.test(name)) {
     fail(`${path}: file name must be kebab-case`)
+  }
+
+  if (OPENCODE_BUILT_IN_AGENTS.includes(name)) {
+    fail(`${path}: "${name}" is a built-in opencode agent and would replace it; choose another name`)
   }
 
   if (frontmatter.name !== name) {
