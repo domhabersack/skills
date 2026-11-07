@@ -95,7 +95,13 @@ function parseSource(path) {
     fail(`${path}: missing frontmatter`)
   }
 
-  const frontmatter = parse(match[1]) ?? {}
+  let frontmatter
+
+  try {
+    frontmatter = parse(match[1]) ?? {}
+  } catch (error) {
+    fail(`${path}: invalid YAML frontmatter: ${error.message}`)
+  }
 
   // Fail rather than drop: keys like permissionMode, disallowedTools, mcpServers, or hooks change what the agent
   // may do, and an opencode agent without them would quietly behave differently from the Claude Code one.
