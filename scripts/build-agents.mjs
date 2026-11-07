@@ -18,6 +18,7 @@ import { parse, stringify } from 'yaml'
 
 const SOURCE_DIRECTORY = 'agents'
 const OPENCODE_DIRECTORY = 'opencode/agents'
+const GENERATED_MARKER = 'by scripts/build-agents.mjs. Do not edit. -->'
 
 const NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
 
@@ -158,7 +159,7 @@ function renderOpencode(source) {
     ]
   }
 
-  const notice = `<!-- Generated from ${SOURCE_DIRECTORY}/${source.name}.md by scripts/build-agents.mjs. Do not edit. -->`
+  const notice = `<!-- Generated from ${SOURCE_DIRECTORY}/${source.name}.md ${GENERATED_MARKER}`
 
   return `---\n${stringify(frontmatter, { lineWidth: 0 })}---\n\n${notice}\n\n${source.body}\n`
 }
@@ -186,6 +187,23 @@ for (const file of listMarkdownFiles(join(root, SOURCE_DIRECTORY))) {
   expected.set(path, await prettify(path, renderOpencode(source)))
 }
 
+// Only files this script generated are ever deleted; anything else in the output directory stops the build.
+const stale = []
+
+for (const file of listMarkdownFiles(join(root, OPENCODE_DIRECTORY))) {
+  const path = join(root, OPENCODE_DIRECTORY, file)
+
+  if (expected.has(path)) {
+    continue
+  }
+
+  if (!readFileSync(path, 'utf8').includes(GENERATED_MARKER)) {
+    fail(`${path}: not generated from ${SOURCE_DIRECTORY}/; move or delete it by hand`)
+  }
+
+  stale.push(path)
+}
+
 const problems = []
 
 for (const [path, content] of expected) {
@@ -203,13 +221,7 @@ for (const [path, content] of expected) {
   }
 }
 
-for (const file of listMarkdownFiles(join(root, OPENCODE_DIRECTORY))) {
-  const path = join(root, OPENCODE_DIRECTORY, file)
-
-  if (expected.has(path)) {
-    continue
-  }
-
+for (const path of stale) {
   problems.push(`stale (no source): ${path}`)
 
   if (!isCheck) {
