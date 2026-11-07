@@ -125,3 +125,12 @@ test('rejects tool names inherited from Object.prototype', () => {
     assert.match(result.stderr, new RegExp(`no opencode equivalent for tools: ${tool}`), tool)
   }
 })
+
+test('reports invalid YAML with the file path instead of a stack trace', () => {
+  const root = createRoot({ 'agents/colon.md': agent('name: colon\ndescription: Use this agent when: reviewing.') })
+  const result = build(root)
+
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /^build-agents: .*agents\/colon\.md: invalid YAML frontmatter: /)
+  assert.doesNotMatch(result.stderr, /\n\s+at /)
+})
