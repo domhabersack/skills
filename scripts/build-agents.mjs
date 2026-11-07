@@ -32,7 +32,8 @@ const TRANSLATED_KEYS = ['name', 'description', 'tools']
 // get a model: each machine picks one in its own opencode config, so the repository stays free of local model names.
 const DROPPED_KEYS = ['model', 'color']
 
-// Claude Code tool names and the opencode v2 permission action each one maps to.
+// Claude Code tool names and the opencode v2 permission action each one maps to. Agent is left out on purpose: Claude
+// Code subagents cannot start subagents, so allowing it in opencode would grant more than the original has.
 const OPENCODE_ACTION_BY_TOOL = {
   Read: 'read',
   Grep: 'grep',
@@ -44,7 +45,6 @@ const OPENCODE_ACTION_BY_TOOL = {
   Bash: 'shell',
   WebFetch: 'webfetch',
   WebSearch: 'websearch',
-  Agent: 'subagent',
   Skill: 'skill',
 }
 
@@ -134,6 +134,13 @@ function renderOpencode(source) {
     frontmatter.permissions = [
       { action: '*', resource: '*', effect: 'deny' },
       ...allowedActions.map((action) => ({ action, resource: '*', effect: 'allow' })),
+    ]
+  } else {
+    // Without a tools list Claude Code allows everything a subagent can do, which excludes starting subagents. Same
+    // rules as opencode's built-in general agent.
+    frontmatter.permissions = [
+      { action: 'question', resource: '*', effect: 'deny' },
+      { action: 'subagent', resource: '*', effect: 'deny' },
     ]
   }
 
