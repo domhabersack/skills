@@ -60,3 +60,13 @@ Body.
   )
   assert.equal(build(root, '--check').status, 0)
 })
+
+test('rejects names of opencode built-in agents, which the generated agent would replace', () => {
+  for (const name of ['build', 'plan', 'general', 'explore', 'compaction', 'summary', 'title']) {
+    const root = createRoot({ [`agents/${name}.md`]: agent(`name: ${name}\ndescription: Clashes.`) })
+    const result = build(root)
+
+    assert.equal(result.status, 1, name)
+    assert.match(result.stderr, /built-in opencode agent/, name)
+  }
+})
