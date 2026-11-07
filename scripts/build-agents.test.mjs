@@ -115,3 +115,13 @@ test('keeps opencode’s .env read protection after allowing Read, like opencode
     /- action: grep\n {4}resource: "\*"\n {4}effect: allow\n {2}- action: read\n {4}resource: "\*\.env"\n {4}effect: ask\n {2}- action: read\n {4}resource: "\*\.env\.\*"\n {4}effect: ask\n {2}- action: read\n {4}resource: "\*\.env\.example"\n {4}effect: allow\n---/,
   )
 })
+
+test('rejects tool names inherited from Object.prototype', () => {
+  for (const tool of ['__proto__', 'constructor', 'toString']) {
+    const root = createRoot({ 'agents/odd.md': agent(`name: odd\ndescription: Odd.\ntools: Read, ${tool}`) })
+    const result = build(root)
+
+    assert.equal(result.status, 1, tool)
+    assert.match(result.stderr, new RegExp(`no opencode equivalent for tools: ${tool}`), tool)
+  }
+})
