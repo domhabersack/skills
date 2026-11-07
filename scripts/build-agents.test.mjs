@@ -88,3 +88,11 @@ test('rejects the Agent tool, because Claude Code subagents cannot start subagen
   assert.equal(result.status, 1)
   assert.match(result.stderr, /no opencode equivalent for tools: Agent/)
 })
+
+test('rejects NotebookEdit, because opencode’s edit permission covers every file', () => {
+  const root = createRoot({ 'agents/notes.md': agent('name: notes\ndescription: Notes.\ntools: Read, NotebookEdit') })
+  const result = build(root)
+
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /no opencode equivalent for tools: NotebookEdit/)
+})
