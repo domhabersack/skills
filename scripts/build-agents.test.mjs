@@ -96,3 +96,13 @@ test('rejects NotebookEdit, because opencode’s edit permission covers every fi
   assert.equal(result.status, 1)
   assert.match(result.stderr, /no opencode equivalent for tools: NotebookEdit/)
 })
+
+test('keeps opencode’s .env read protection after allowing Read, like opencode’s built-in explore agent', () => {
+  const root = createRoot({ 'agents/reader.md': agent('name: reader\ndescription: Reads.\ntools: Read, Grep') })
+
+  assert.equal(build(root).status, 0)
+  assert.match(
+    readFileSync(join(root, 'opencode/agents/reader.md'), 'utf8'),
+    /- action: grep\n {4}resource: "\*"\n {4}effect: allow\n {2}- action: read\n {4}resource: "\*\.env"\n {4}effect: ask\n {2}- action: read\n {4}resource: "\*\.env\.\*"\n {4}effect: ask\n {2}- action: read\n {4}resource: "\*\.env\.example"\n {4}effect: allow\n---/,
+  )
+})
