@@ -14,6 +14,15 @@ require_prettier() {
 # Agents: agents/ (Claude Code) is the source of truth for opencode/agents/ (opencode).
 if ! git diff --cached --quiet -- agents; then
   require_prettier
+
+  # The generator reads agents/ from disk, so unstaged or untracked agents would leak into the commit.
+  if ! git diff --quiet -- agents || [ -n "$(git ls-files --others --exclude-standard -- agents)" ]; then
+    echo "pre-commit: agents/ has unstaged or untracked changes, so opencode/agents/ cannot be generated from what is staged:" >&2
+    git status --short -- agents >&2
+    echo "Stage or stash the remaining changes in agents/ first." >&2
+    exit 1
+  fi
+
   node scripts/build-agents.mjs
   git add -- opencode/agents
 fi

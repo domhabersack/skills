@@ -94,7 +94,7 @@ npm run format       # format all markdown
 npm run format:check # verify (also runs in CI)
 ```
 
-The hook in `.githooks/pre-commit` regenerates `opencode/agents/` when `agents/` is staged, and formats staged `.md` files on commit. It is a plain git hook that `npm install` activates via `core.hooksPath` (which replaces any hooks in `.git/hooks` for this clone). It handles file names with spaces and non-ASCII characters and renamed files, refuses to touch a file that also has unstaged changes, and aborts the commit if Prettier fails. No other tooling is needed, and any editor or agent can run `npm run format`.
+The hook in `.githooks/pre-commit` regenerates `opencode/agents/` when `agents/` is staged (and refuses while `agents/` also has unstaged or untracked changes, which would leak into the commit), and formats staged `.md` files on commit. It is a plain git hook that `npm install` activates via `core.hooksPath` (which replaces any hooks in `.git/hooks` for this clone). It handles file names with spaces and non-ASCII characters and renamed files, refuses to touch a file that also has unstaged changes, and aborts the commit if Prettier fails. No other tooling is needed, and any editor or agent can run `npm run format`.
 
 Claude Code also formats each markdown file right after it edits it, and regenerates the opencode agents when it edits a file in `agents/`. The hook is configured in `.claude/settings.json` and runs `.claude/hooks/format-markdown.sh`, so anyone who opens this repo in Claude Code gets it after trusting the project. It is deliberately a project hook and not part of the plugin: plugin hooks would run in the projects of everyone who installs the plugin.
 
