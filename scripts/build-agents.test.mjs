@@ -91,7 +91,9 @@ test('rejects names of opencode built-in agents, which the generated agent would
 test('denies subagents and questions to agents without a tools list, like opencode’s built-in general agent', () => {
   const root = createRoot({ 'agents/helper.md': agent('name: helper\ndescription: Helps.') })
 
-  assert.equal(build(root).status, 0)
+  const result = build(root)
+
+  assert.equal(result.status, 0, result.stderr)
   assert.match(
     readFileSync(join(root, 'opencode/agents/helper.md'), 'utf8'),
     /permissions:\n {2}- action: question\n {4}resource: "\*"\n {4}effect: deny\n {2}- action: subagent\n {4}resource: "\*"\n {4}effect: deny\n---/,
@@ -117,7 +119,9 @@ test('rejects NotebookEdit, because opencode’s edit permission covers every fi
 test('keeps opencode’s .env read protection after allowing Read, like opencode’s built-in explore agent', () => {
   const root = createRoot({ 'agents/reader.md': agent('name: reader\ndescription: Reads.\ntools: Read, Grep') })
 
-  assert.equal(build(root).status, 0)
+  const result = build(root)
+
+  assert.equal(result.status, 0, result.stderr)
   assert.match(
     readFileSync(join(root, 'opencode/agents/reader.md'), 'utf8'),
     /- action: grep\n {4}resource: "\*"\n {4}effect: allow\n {2}- action: read\n {4}resource: "\*\.env"\n {4}effect: ask\n {2}- action: read\n {4}resource: "\*\.env\.\*"\n {4}effect: ask\n {2}- action: read\n {4}resource: "\*\.env\.example"\n {4}effect: allow\n---/,
@@ -156,7 +160,7 @@ test('refuses to delete hand-written files in opencode/agents', () => {
 function createRepository() {
   const root = createRoot()
 
-  for (const file of ['.githooks/pre-commit', 'scripts/build-agents.mjs', '.prettierrc.json', '.editorconfig']) {
+  for (const file of ['.githooks/pre-commit', 'scripts/build-agents.mjs', '.editorconfig']) {
     mkdirSync(dirname(join(root, file)), { recursive: true })
     copyFileSync(join(repository, file), join(root, file))
   }
