@@ -14,6 +14,8 @@ function createRoot(files = {}) {
   const root = mkdtempSync(join(tmpdir(), 'build-agents-'))
 
   mkdirSync(join(root, 'agents'))
+  // Stops Prettier from searching the temp directory's parents for a config (and running a JavaScript one it finds).
+  copyFileSync(join(repository, '.prettierrc.json'), join(root, '.prettierrc.json'))
 
   for (const [path, content] of Object.entries(files)) {
     mkdirSync(dirname(join(root, path)), { recursive: true })
@@ -36,7 +38,9 @@ test('translates a Claude Code agent into an opencode subagent', () => {
     'agents/reviewer.md': agent('name: reviewer\ndescription: Reviews code.\ntools: Read, Bash\nmodel: sonnet'),
   })
 
-  assert.equal(build(root).status, 0)
+  const result = build(root)
+
+  assert.equal(result.status, 0, result.stderr)
   assert.equal(
     readFileSync(join(root, 'opencode/agents/reviewer.md'), 'utf8'),
     `---
@@ -68,7 +72,10 @@ permissions:
 Body.
 `,
   )
-  assert.equal(build(root, '--check').status, 0)
+
+  const check = build(root, '--check')
+
+  assert.equal(check.status, 0, check.stderr)
 })
 
 test('rejects names of opencode built-in agents, which the generated agent would replace', () => {
