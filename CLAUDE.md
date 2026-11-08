@@ -7,7 +7,7 @@ This repo is both a skills.sh source and a Claude Code plugin marketplace (singl
 - `templates/` holds starting points only; never put real skills or agents there.
 - Keep each skill's `description` specific about when to trigger; it decides whether the skill loads.
 - Bump `version` in `.claude-plugin/plugin.json` when releasing changes.
-- Before committing, run `claude plugin validate .` and `npx skills add . --list`.
+- Before committing, run `claude plugin validate .`, `npx skills add . --list`, and `npm test`. Tests for `scripts/` live next to the script as `<name>.test.mjs` and use Node's built-in `node:test`.
 - Run `npm run format` after creating or editing any markdown file (skills, agents, templates, docs). `npm run format:check` verifies it; CI fails on unformatted markdown.
 - Claude Code formats markdown automatically after each edit via `.claude/hooks/format-markdown.sh`. The formatter rewrites the file right after you edit it, so re-read a markdown file before editing it again. Other agents must run `npm run format` themselves.
 - After cloning, run `npm install`. It installs Prettier and enables the `.githooks/pre-commit` hook, which formats staged markdown. Never bypass hooks with `--no-verify`. If dependencies cannot be installed in your environment, say so instead of bypassing the hook.

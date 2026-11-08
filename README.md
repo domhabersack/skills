@@ -104,6 +104,7 @@ Claude Code also formats each markdown file right after it edits it, and regener
 claude plugin validate .
 npx skills add . --list
 npm run check:agents   # generated opencode agents are up to date (also runs in CI)
+npm test               # tests for scripts/ (also runs in CI)
 ```
 
 ## License
