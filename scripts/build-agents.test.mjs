@@ -38,7 +38,9 @@ test('translates a Claude Code agent into an opencode subagent', () => {
     'agents/reviewer.md': agent('name: reviewer\ndescription: Reviews code.\ntools: Read, Bash\nmodel: sonnet'),
   })
 
-  assert.equal(build(root).status, 0)
+  const result = build(root)
+
+  assert.equal(result.status, 0, result.stderr)
   assert.equal(
     readFileSync(join(root, 'opencode/agents/reviewer.md'), 'utf8'),
     `---
@@ -61,5 +63,8 @@ permissions:
 Body.
 `,
   )
-  assert.equal(build(root, '--check').status, 0)
+
+  const check = build(root, '--check')
+
+  assert.equal(check.status, 0, check.stderr)
 })
