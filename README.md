@@ -21,10 +21,11 @@ skills.sh only installs skills. Subagents in `agents/` are Claude Code-specific 
 
 ## Skills
 
-| Skill                   | What it covers                                                                                 |
-| ----------------------- | ---------------------------------------------------------------------------------------------- |
-| `engineering-standards` | Small changes, test-first, conventional commits, PR descriptions, dependencies, and hard rules |
-| `ui-microcopy`          | Casing, typography, and wording of buttons, labels, headings, and other UI strings             |
+| Skill                   | What it covers                                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `engineering-standards` | Small changes, test-first, conventional commits, PR descriptions, dependencies, and hard rules               |
+| `sdlc-artifacts`        | Intent, spec, and plan files for a change: where they live, their sections, status, and keeping them in sync |
+| `ui-microcopy`          | Casing, typography, and wording of buttons, labels, headings, and other UI strings                           |
 
 ## Layout
 
