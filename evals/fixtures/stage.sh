@@ -37,6 +37,7 @@ commit "Add render API" src/lib/render.ts src/lib/redis.ts app/api
 commit "Editor, header and pricing" components
 commit "Checkout and import" app/checkout app/import app/settings
 commit "Old migrations + review policy" scripts REVIEW.md
+commit "Write up csv import" docs
 
 if [[ -d "$fixture/staged" ]]; then
   rsync -a "$fixture/staged"/ ./

@@ -5,6 +5,7 @@
 //
 // A case counts as loaded when the skill loaded in most of its runs. Targets:
 // at least min_trigger_rate of the should-trigger cases, and no near-misses.
+// Output cases (<skill>/output/<name>) pass when most of their runs pass.
 
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -25,6 +26,17 @@ for (const evalCase of result.cases) {
       `${evalCase.name}: ${errors.length} run(s) failed to run: ${errors[0].error}`,
     );
     failed = true;
+  }
+
+  // Output cases check what a skill produces rather than when it loads.
+  if (arm === "output") {
+    const passedRuns = runs.filter((run) => run.passed).length;
+    const ok = passedRuns > runs.length / 2;
+    if (!ok) failed = true;
+    console.log(
+      `${ok ? "PASS" : "FAIL"} ${evalCase.name}: passed ${passedRuns}/${runs.length} runs`,
+    );
+    continue;
   }
 
   const shouldTrigger =

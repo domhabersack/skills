@@ -1,0 +1,38 @@
+# Writing an intent by hand produces a file that matches the template.
+schema_version: "1.0"
+name: sdlc-artifacts/output/write-intent
+tags: [sdlc-artifacts, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "write an intent for issue #31. it says: the dark mode toggle in the header resets after every page reload. just the intent, nothing else"
+  max_turns: 15
+  allowed_tools: [Read, Glob, Grep, Edit, Write, Bash, Skill]
+runs: 3
+graders:
+  - type: file_exists
+    name: intent-in-change-folder
+    path: "docs/changes/31-*/intent.md"
+  # The checks below read the intent from the Write call in the trace, where
+  # its newlines are escaped as \n.
+  - type: regex
+    name: title-and-status-line
+    target: trace
+    pattern: '"name":"Write","input":\{"file_path":"[^"]*/docs/changes/31-[^"/]*/intent\.md","content":"# Intent: [^"\\]+\\n\\nIssue: #31 · Author: [^"\\]+ · Status: draft\\n'
+  - type: regex
+    name: required-sections-in-order
+    target: trace
+    pattern: '"name":"Write","input":\{"file_path":"[^"]*/docs/changes/31-[^"/]*/intent\.md","content":"(?:[^"\\]|\\.)*\\n## Problem\\n(?:[^"\\]|\\.)*\\n## Proposed outcome\\n'
+  - type: regex
+    name: only-template-sections
+    target: trace
+    match: not_contains
+    pattern: '"name":"Write","input":\{"file_path":"[^"]*/docs/changes/31-[^"/]*/intent\.md","content":"(?:[^"\\]|\\.)*?\\n## (?!(?:Problem|Proposed outcome|Affected users and systems|Constraints|Open questions)\\n)'
+  - type: file_exists
+    name: no-spec-yet
+    path: "docs/changes/31-*/spec.md"
+    exists: false
+  - type: file_exists
+    name: no-plan-yet
+    path: "docs/changes/31-*/plan.md"
+    exists: false

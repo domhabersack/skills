@@ -1,0 +1,107 @@
+{
+  "skill": "sdlc-artifacts",
+  "fixture": "codeshots",
+  "min_trigger_rate": 0.8,
+  "queries": [
+    {
+      "name": "write-intent",
+      "query": "write an intent for this: people keep asking to export snippets as SVG, not just PNG",
+      "should_trigger": true
+    },
+    {
+      "name": "issue-to-intent",
+      "query": "turn issue #31 into an intent doc. the issue says: the dark mode toggle in the header resets after every page reload",
+      "should_trigger": true
+    },
+    {
+      "name": "spec-from-intent",
+      "query": "the intent for the CSV import is approved. write the spec",
+      "should_trigger": true
+    },
+    {
+      "name": "plan-from-spec",
+      "query": "the spec for #14 looks good to me, write the implementation plan for it",
+      "should_trigger": true
+    },
+    {
+      "name": "plan-divergence",
+      "query": "I ended up parsing the CSV with a small hand-written parser instead of papaparse for #14. update the docs so they match",
+      "should_trigger": true
+    },
+    {
+      "name": "measurable-criteria",
+      "query": "the acceptance criteria in the CSV import spec are vague. make them measurable",
+      "should_trigger": true
+    },
+    {
+      "name": "review-spec",
+      "query": "review docs/changes/14-csv-import/spec.md. does it answer everything the intent left open?",
+      "should_trigger": true
+    },
+    {
+      "name": "plan-small-fix",
+      "query": "before you touch any code: write up a plan for fixing the pricing card padding on mobile",
+      "should_trigger": true
+    },
+    {
+      "name": "record-decisions",
+      "query": "we decided to cap CSV imports at 500 rows and to skip rows that duplicate an existing snippet. write that into the #14 docs",
+      "should_trigger": true
+    },
+    {
+      "name": "approve-plan",
+      "query": "I read the plan for the CSV import and I'm happy with it. mark it approved",
+      "should_trigger": true
+    },
+    {
+      "name": "readme-tests",
+      "query": "add a section to the README that explains how to run the tests",
+      "should_trigger": false
+    },
+    {
+      "name": "pr-description",
+      "query": "write the PR description for the coupon validation change that's staged",
+      "should_trigger": false
+    },
+    {
+      "name": "commit-message",
+      "query": "write a commit message for the staged coupon changes",
+      "should_trigger": false
+    },
+    {
+      "name": "summarize-review",
+      "query": "summarize what REVIEW.md asks reviewers to check",
+      "should_trigger": false
+    },
+    {
+      "name": "explain-sdd",
+      "query": "explain what spec-driven development is and how it differs from TDD, I'm prepping a talk",
+      "should_trigger": false
+    },
+    {
+      "name": "launch-plan",
+      "query": "draft a launch plan with milestones for putting codeshots Pro on Product Hunt next month",
+      "should_trigger": false
+    },
+    {
+      "name": "test-spec-dates",
+      "query": "write more test cases for parseDate in src/lib/dates.test.ts, covering leap years and negative timestamps",
+      "should_trigger": false
+    },
+    {
+      "name": "changelog",
+      "query": "add a CHANGELOG entry for the coupon validation",
+      "should_trigger": false
+    },
+    {
+      "name": "refactor-dates",
+      "query": "refactor parseDate in src/lib/dates.ts to use early returns, keep the behavior the same",
+      "should_trigger": false
+    },
+    {
+      "name": "blog-planning",
+      "query": "write a blog post about how I plan my side projects",
+      "should_trigger": false
+    }
+  ]
+}
