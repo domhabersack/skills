@@ -5,21 +5,21 @@ description: Use when writing, changing, refactoring, testing, or reviewing code
 
 # Engineering standards
 
-How code gets written, committed, and proposed for review. Each change should be easy to review, easy to revert, and proven to work by evidence rather than by a claim. These rules hold in every language and stack. Stack-specific conventions live in their own skills and in each repository’s `CLAUDE.md`, which wins on details of its stack. The commit format and the hard rules below hold everywhere.
+How code gets written and committed. Each change should be easy to review and revert, and proven to work by evidence rather than by a claim. These rules hold in every language and stack. Stack-specific conventions live in their own skills and in each repository’s `CLAUDE.md`, which wins on details of its stack. The commit format and the hard rules below hold everywhere.
 
 ## Keep changes small
 
 - Write the simplest thing that works. Do not add abstractions, options, or extension points for needs that do not exist yet. Three similar lines are cheaper than the wrong abstraction.
-- Prefer deleting code over adding it. A change that solves the problem with fewer lines is better.
-- Match the surrounding code: its naming, idiom, structure, and comment density. A reader should not be able to tell which lines are new by their style.
-- Comments explain why, not what. Do not write comments that narrate the change (“added this to fix the bug”).
+- Readability wins over cleverness. Identifiers should be descriptive, the path through the code should be easy to follow.
+- Match the surrounding code in naming conventions, idioms, structure, style, and comment density.
+- Comments explain why, not what. Do not write comments that narrate the change (e.g. “added this to fix the bug”).
 - Touch only what the change needs. No drive-by refactors, renames, or formatting of unrelated code, because they hide the real change in review. Note anything else worth fixing under “Noticed, not changed” in the PR description.
 - One concern per pull request. If a change turns out to need a second, unrelated change first, make that its own pull request.
 
 ## Dependencies
 
 - Prefer the platform and the dependencies the repository already has. A new dependency is code you did not write, cannot easily review, and have to keep updating.
-- When a new dependency is still the right call, justify it in one line in the PR description: what it replaces and why it is not written by hand.
+- When a new dependency is still the right call, justify it in one line in the PR description: what does it replace and why was it not written by hand.
 - Always pin exact versions, in every ecosystem: `"zod": "3.25.76"` (not `"^3.25.76"` or `"~3.25.76"`). Ranges let installs drift without a commit that shows it.
 
 ## Test first
