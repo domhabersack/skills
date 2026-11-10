@@ -1,0 +1,36 @@
+# Asked for an example to copy, it returns one excerpt of the most common pattern.
+schema_version: "1.0"
+name: code-searcher/output/example-to-copy
+tags: [code-searcher, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "Use the skills:code-searcher agent to answer: I'm adding a new component to components/. Give me an example to copy. Reply with its report exactly as it returned it."
+  max_turns: 5
+  allowed_tools: [Agent]
+runs: 3
+graders:
+  - type: tool_used
+    name: delegated
+    tool: Agent
+    input_match: 'code-searcher'
+  - type: regex
+    name: one-excerpt
+    match: count:2
+    pattern: '```'
+  - type: regex
+    name: excerpt-at-most-30-lines
+    match: not_contains
+    pattern: '^(?:(?!```)[\s\S])*```[^\n]*\n(?:(?!```)[^\n]*\n){31}'
+  - type: regex
+    name: excerpt-uses-named-export
+    pattern: '^(?:(?!```)[\s\S])*```[^\n]*\n(?:(?!```)[\s\S])*?export function'
+  # The report may name the exceptions elsewhere; only the excerpt must avoid them.
+  - type: regex
+    name: not-the-exception
+    match: not_contains
+    pattern: '^(?:(?!```)[\s\S])*```[^\n]*\n(?:(?!```)[\s\S])*?export default'
+  - type: regex
+    name: at-most-40-lines
+    match: not_contains
+    pattern: '(?:[^\n]*\n){40}'

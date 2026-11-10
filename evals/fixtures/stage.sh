@@ -33,8 +33,8 @@ commit() {
 }
 commit "Initial commit" package.json .gitignore README.md CLAUDE.md vitest.config.ts
 commit "Add date parsing" src/lib/dates.ts src/lib/dates.test.ts
-commit "Add render API" src/lib/render.ts src/lib/redis.ts app/api
-commit "Editor, header and pricing" components
+commit "Add render API" src/config.ts src/lib/render.ts src/lib/redis.ts src/lib/rate-limit.ts src/lib/rate-limit.test.ts app/api
+commit "Editor, header and pricing" components src/lib/throttle.ts
 commit "Checkout and import" app/checkout app/import app/settings
 commit "Old migrations + review policy" scripts REVIEW.md
 commit "Write up csv import" docs
