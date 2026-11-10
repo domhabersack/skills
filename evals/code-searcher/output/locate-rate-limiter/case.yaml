@@ -1,0 +1,38 @@
+# Locate mode finds every definition, config and call site, and invents none.
+schema_version: "1.0"
+name: code-searcher/output/locate-rate-limiter
+tags: [code-searcher, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "Use the skills:code-searcher agent to answer: where is the rate limiter configured and where is it used? Reply with its report exactly as it returned it."
+  max_turns: 5
+  allowed_tools: [Agent]
+runs: 3
+graders:
+  - type: tool_used
+    name: delegated
+    tool: Agent
+    input_match: 'code-searcher'
+  - type: regex
+    name: cites-definition
+    pattern: 'src/lib/rate-limit\.ts:6\b'
+  - type: regex
+    name: cites-config
+    pattern: 'src/config\.ts:[2-4]\b'
+  - type: regex
+    name: cites-render-route
+    pattern: 'app/api/render/route\.ts:10\b'
+  - type: regex
+    name: cites-embed-route
+    pattern: 'app/api/embed/route\.ts:12\b'
+  - type: regex
+    name: cites-import-action
+    pattern: 'app/import/actions\.ts:8\b'
+  - type: llm
+    name: nothing-invented
+    criteria: "The report presents only these files as defining, configuring, using or testing the rate limiter: src/lib/rate-limit.ts, src/config.ts, app/api/render/route.ts, app/api/embed/route.ts, app/import/actions.ts and src/lib/rate-limit.test.ts. It does not present src/lib/throttle.ts or any other file as part of the rate limiter."
+  - type: regex
+    name: at-most-40-lines
+    match: not_contains
+    pattern: '(?:[^\n]*\n){40}'

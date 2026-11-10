@@ -1,0 +1,30 @@
+# A dominant convention is reported with correct counts and both exceptions.
+schema_version: "1.0"
+name: code-searcher/output/export-convention
+tags: [code-searcher, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "Use the skills:code-searcher agent to answer: how do the components in components/ export themselves? Reply with its report exactly as it returned it."
+  max_turns: 5
+  allowed_tools: [Agent]
+runs: 3
+graders:
+  - type: tool_used
+    name: delegated
+    tool: Agent
+    input_match: 'code-searcher'
+  - type: regex
+    name: counts-named-exports
+    flags: i
+    pattern: '\b10\b[^\n]*\bnamed\b|\bnamed\b[^\n]*\b10\b'
+  - type: regex
+    name: names-legacy-banner
+    pattern: 'LegacyBanner'
+  - type: regex
+    name: names-usage-meter
+    pattern: 'UsageMeter'
+  - type: regex
+    name: at-most-40-lines
+    match: not_contains
+    pattern: '(?:[^\n]*\n){40}'

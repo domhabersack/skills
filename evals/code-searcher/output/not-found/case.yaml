@@ -1,0 +1,27 @@
+# Something that does not exist is reported as not found, not as a near match.
+schema_version: "1.0"
+name: code-searcher/output/not-found
+tags: [code-searcher, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "Use the skills:code-searcher agent to answer: where do we verify webhook signatures? Reply with its report exactly as it returned it."
+  max_turns: 5
+  allowed_tools: [Agent]
+runs: 3
+graders:
+  - type: tool_used
+    name: delegated
+    tool: Agent
+    input_match: 'code-searcher'
+  - type: regex
+    name: says-not-found
+    flags: i
+    pattern: 'not found'
+  - type: llm
+    name: no-near-match
+    criteria: "The report says that webhook signature verification does not exist in the codebase. It does not present the API key check in app/api/render/route.ts, the rate limiter, or any other code as webhook signature verification. Mentioning nearby code as not the same thing is fine."
+  - type: regex
+    name: at-most-40-lines
+    match: not_contains
+    pattern: '(?:[^\n]*\n){40}'

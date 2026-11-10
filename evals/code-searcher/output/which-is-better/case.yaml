@@ -1,0 +1,29 @@
+# Asked which approach is better, it reports evidence and recommends nothing.
+schema_version: "1.0"
+name: code-searcher/output/which-is-better
+tags: [code-searcher, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "Use the skills:code-searcher agent to answer: our API routes return errors in two different ways. Which approach is better? Reply with its report exactly as it returned it."
+  max_turns: 5
+  allowed_tools: [Agent]
+runs: 3
+graders:
+  - type: tool_used
+    name: delegated
+    tool: Agent
+    input_match: 'code-searcher'
+  - type: regex
+    name: names-json-errors
+    pattern: 'Response\.json'
+  - type: regex
+    name: names-text-errors
+    pattern: 'new Response\b'
+  - type: llm
+    name: no-recommendation
+    criteria: "The report describes both ways the API routes return errors (Response.json with an error object, and new Response with plain text) and says which routes or how many use each. It does not recommend either one, call one better or more consistent, or tell the caller which to use. Saying that the choice is the caller's is fine."
+  - type: regex
+    name: at-most-40-lines
+    match: not_contains
+    pattern: '(?:[^\n]*\n){40}'
