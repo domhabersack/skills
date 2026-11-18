@@ -1,0 +1,57 @@
+{
+  "skill": "ui-microcopy",
+  "fixture": "codeshots",
+  "min_trigger_rate": 0.8,
+  "queries": [
+    {
+      "name": "reword-generate-key",
+      "query": "the 'Generate New Key' button on the settings page is vague, reword it so people know what it does",
+      "should_trigger": true
+    },
+    {
+      "name": "import-error-messages",
+      "query": "write the error messages for app/import/actions.ts when the uploaded CSV is empty or has the wrong columns",
+      "should_trigger": true
+    },
+    {
+      "name": "settings-casing-audit",
+      "query": "go through the settings page copy and list every heading or label that isn't sentence case. don't change anything, just give me the list",
+      "should_trigger": true
+    },
+    {
+      "name": "editor-empty-state",
+      "query": "add an empty state to the Editor component for when there are no code blocks yet",
+      "should_trigger": true
+    },
+    {
+      "name": "pricing-feature-bullets",
+      "query": "rewrite the feature bullets on the pricing cards so the Pro plan sounds worth paying for",
+      "should_trigger": true
+    },
+    {
+      "name": "early-returns",
+      "query": "refactor parseDate in src/lib/dates.ts to use early returns, keep the behavior the same",
+      "should_trigger": false
+    },
+    {
+      "name": "rate-limit",
+      "query": "add rate limiting to POST /api/render, 30 requests per minute per api key, using the redis client in src/lib/redis.ts",
+      "should_trigger": false
+    },
+    {
+      "name": "rebase-vs-merge",
+      "query": "what's the difference between git rebase and git merge? when would you use each",
+      "should_trigger": false
+    },
+    {
+      "name": "bump-vitest",
+      "query": "bump vitest in package.json to 2.1.8",
+      "should_trigger": false
+    },
+    {
+      "name": "explain-render",
+      "query": "what does renderSnippet in src/lib/render.ts return, and who calls it?",
+      "should_trigger": false
+    }
+  ]
+}
