@@ -7,7 +7,7 @@ export function Header() {
 
   return (
     <header className={dark ? 'dark' : undefined}>
-      <a href="/">codeshots</a>
+      <a href="/">todo-app</a>
       <button type="button" onClick={() => setDark(!dark)}>
         {dark ? 'Light mode' : 'Dark mode'}
       </button>

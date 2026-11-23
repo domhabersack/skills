@@ -1,6 +1,6 @@
 {
   "skill": "ui-microcopy",
-  "fixture": "codeshots",
+  "fixture": "nextjs-app",
   "min_trigger_rate": 0.8,
   "queries": [
     {

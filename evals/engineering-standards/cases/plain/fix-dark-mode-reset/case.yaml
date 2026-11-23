@@ -5,7 +5,7 @@ tags: [engineering-standards, plain, should-trigger]
 context:
   scaffold_script: stage.sh
 execution:
-  prompt: "users report the dark mode toggle in the header resets after every page reload on codeshots. fix this bug"
+  prompt: "users report the dark mode toggle in the header resets after every page reload on todo-app. fix this bug"
   max_turns: 15
   allowed_tools: [Read, Glob, Grep, Edit, Write, Bash, Skill]
 runs: 3

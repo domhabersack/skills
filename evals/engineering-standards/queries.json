@@ -1,6 +1,6 @@
 {
   "skill": "engineering-standards",
-  "fixture": "codeshots",
+  "fixture": "nextjs-app",
   "pointer": "pointer.md",
   "min_trigger_rate": 0.8,
   "queries": [
@@ -17,7 +17,7 @@
     },
     {
       "name": "fix-dark-mode-reset",
-      "query": "users report the dark mode toggle in the header resets after every page reload on codeshots. fix this bug",
+      "query": "users report the dark mode toggle in the header resets after every page reload on todo-app. fix this bug",
       "should_trigger": true
     },
     {
@@ -77,7 +77,7 @@
     },
     {
       "name": "linkedin-post",
-      "query": "draft a short LinkedIn post announcing that codeshots now supports caching",
+      "query": "draft a short LinkedIn post announcing that todo-app now supports caching",
       "should_trigger": false
     },
     {

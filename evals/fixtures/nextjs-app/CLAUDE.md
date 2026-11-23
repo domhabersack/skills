@@ -1,6 +1,6 @@
-# codeshots
+# todo-app
 
-Turns code snippets into shareable images. Next.js App Router, TypeScript, Redis for caching.
+Next.js App Router, TypeScript, and a Redis client in `src/lib/redis.ts`.
 
 ## Commands
 
