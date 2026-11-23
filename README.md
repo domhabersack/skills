@@ -54,6 +54,8 @@ evals/run.sh                        # every skill
 evals/run.sh engineering-standards  # one skill
 ```
 
+The runner needs `claude` and Node.js on your `PATH`.
+
 The run prints how often each skill loaded and fails when a skill loads for fewer than 80% of its prompts or for any near-miss. It uses whatever `claude` is logged in with, so on a Claude subscription it counts against the plan’s usage limits instead of costing API credits. A full run is 150 sessions; `EVAL_RUNS=1` cuts that to a third. `EVAL_MODEL` (default `sonnet`) overrides the model. The full report is in `evals/results/`.
 
 To add evals for a skill, write `evals/<skill>/queries.json` and generate its cases:
@@ -61,6 +63,8 @@ To add evals for a skill, write `evals/<skill>/queries.json` and generate its ca
 ```sh
 node evals/scripts/trigger-cases.mjs <skill>
 ```
+
+A query can set `"staged": true` to start with the fixture's `staged/` files staged on `main`. Every fixture directory under `branches/` becomes a branch off `main`.
 
 Evals run locally only. Run them for every skill a pull request adds or changes before opening it.
 

@@ -12,7 +12,8 @@
     {
       "name": "commit-message-staged",
       "query": "I staged my changes to the checkout flow (added coupon validation + tests). write a commit message for it",
-      "should_trigger": true
+      "should_trigger": true,
+      "staged": true
     },
     {
       "name": "fix-dark-mode-reset",
@@ -50,8 +51,8 @@
       "should_trigger": true
     },
     {
-      "name": "describe-pr-87",
-      "query": "write the description for PR #87, it adds per-user image caching and an admin page to clear it",
+      "name": "describe-pr-cache-admin",
+      "query": "write the PR description for the cache-admin branch, it adds per-user image caching and an admin page to clear it",
       "should_trigger": true
     },
     {

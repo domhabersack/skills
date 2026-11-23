@@ -33,4 +33,4 @@ claude plugin eval . \
   --json "$out" \
   ${filters[@]+"${filters[@]}"} </dev/null
 
-node evals/scripts/summary.mjs "$out"
+node evals/scripts/summary.mjs "$out" "$@"

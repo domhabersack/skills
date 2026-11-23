@@ -34,8 +34,8 @@
       "should_trigger": false
     },
     {
-      "name": "rate-limit",
-      "query": "add rate limiting to POST /api/render, 30 requests per minute per api key, using the redis client in src/lib/redis.ts",
+      "name": "cache-render",
+      "query": "cache renderSnippet results from src/lib/render.ts in redis for an hour, keyed by a hash of the code and theme",
       "should_trigger": false
     },
     {
