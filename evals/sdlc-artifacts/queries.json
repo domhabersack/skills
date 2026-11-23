@@ -61,12 +61,14 @@
     {
       "name": "pr-description",
       "query": "write the PR description for the recurrence validation change that's staged",
-      "should_trigger": false
+      "should_trigger": false,
+      "staged": true
     },
     {
       "name": "commit-message",
       "query": "write a commit message for the staged recurrence changes",
-      "should_trigger": false
+      "should_trigger": false,
+      "staged": true
     },
     {
       "name": "summarize-review",
@@ -91,7 +93,8 @@
     {
       "name": "changelog",
       "query": "add a CHANGELOG entry for the recurrence validation",
-      "should_trigger": false
+      "should_trigger": false,
+      "staged": true
     },
     {
       "name": "refactor-dates",
