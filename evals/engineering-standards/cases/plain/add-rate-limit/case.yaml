@@ -5,7 +5,7 @@ tags: [engineering-standards, plain, should-trigger]
 context:
   scaffold_script: stage.sh
 execution:
-  prompt: "implement rate limiting on POST /api/render, 30 req/min per api key, use the redis client we already have"
+  prompt: "implement rate limiting on POST /api/tasks, 30 req/min per api key, use the redis client we already have"
   max_turns: 15
   allowed_tools: [Read, Glob, Grep, Edit, Write, Bash, Skill]
 runs: 3

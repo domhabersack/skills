@@ -44,9 +44,9 @@ commit() {
 }
 commit "Initial commit" package.json .gitignore README.md CLAUDE.md vitest.config.ts
 commit "Add date parsing" src/lib/dates.ts src/lib/dates.test.ts
-commit "Add render API" src/lib/render.ts src/lib/redis.ts app/api
-commit "Editor, header and pricing" components
-commit "Checkout and import" app/checkout app/import app/settings
+commit "Add tasks API" src/lib/tasks.ts src/lib/redis.ts app/api
+commit "Task list, header and pricing" components
+commit "Recurring tasks, import and settings" src/lib/recurrence.ts app/import app/settings
 commit "Old migrations + review policy" scripts REVIEW.md
 
 if [[ -d "$fixture/branches" ]]; then

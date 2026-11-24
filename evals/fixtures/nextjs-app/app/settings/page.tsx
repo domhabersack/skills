@@ -3,9 +3,9 @@ export default function SettingsPage() {
     <main>
       <h1>Account Settings</h1>
       <section>
-        <h2>Default Theme</h2>
-        <label htmlFor="theme">Editor theme</label>
-        <select id="theme" />
+        <h2>Default List</h2>
+        <label htmlFor="list">New tasks go to</label>
+        <select id="list" />
       </section>
       <section>
         <h2>API keys</h2>

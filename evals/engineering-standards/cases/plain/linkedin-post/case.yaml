@@ -5,7 +5,7 @@ tags: [engineering-standards, plain, near-miss]
 context:
   scaffold_script: stage.sh
 execution:
-  prompt: "draft a short LinkedIn post announcing that todo-app now supports caching"
+  prompt: "draft a short LinkedIn post announcing that todo-app now supports recurring tasks"
   max_turns: 15
   allowed_tools: [Read, Glob, Grep, Edit, Write, Bash, Skill]
 runs: 3

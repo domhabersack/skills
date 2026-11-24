@@ -5,7 +5,7 @@ tags: [engineering-standards, pointer, should-trigger]
 context:
   scaffold_script: stage.sh
 execution:
-  prompt: "I staged my changes to the checkout flow (added coupon validation + tests). write a commit message for it"
+  prompt: "I staged my changes to recurring tasks (added recurrence validation + tests). write a commit message for it"
   max_turns: 15
   allowed_tools: [Read, Glob, Grep, Edit, Write, Bash, Skill]
 runs: 3

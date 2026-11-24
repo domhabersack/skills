@@ -1,8 +1,8 @@
 import styles from './PricingCards.module.css'
 
 const plans = [
-  { name: 'Free', price: '$0', features: ['10 images a month'] },
-  { name: 'Pro', price: '$8', features: ['Unlimited images', 'API access'] },
+  { name: 'Free', price: '$0', features: ['3 lists', 'Due dates'] },
+  { name: 'Pro', price: '$4', features: ['Unlimited lists', 'Recurring tasks', 'API access'] },
 ]
 
 export function PricingCards() {

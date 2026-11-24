@@ -19,8 +19,8 @@
       "should_trigger": true
     },
     {
-      "name": "editor-empty-state",
-      "query": "add an empty state to the Editor component for when there are no code blocks yet",
+      "name": "task-list-empty-state",
+      "query": "add an empty state to the TaskList component for when there are no tasks yet",
       "should_trigger": true
     },
     {
@@ -34,8 +34,8 @@
       "should_trigger": false
     },
     {
-      "name": "cache-render",
-      "query": "cache renderSnippet results from src/lib/render.ts in redis for an hour, keyed by a hash of the code and theme",
+      "name": "cache-task-list",
+      "query": "cache listTasks results from src/lib/tasks.ts in redis for a minute",
       "should_trigger": false
     },
     {
@@ -49,8 +49,8 @@
       "should_trigger": false
     },
     {
-      "name": "explain-render",
-      "query": "what does renderSnippet in src/lib/render.ts return, and who calls it?",
+      "name": "explain-create-task",
+      "query": "what does createTask in src/lib/tasks.ts return, and who calls it?",
       "should_trigger": false
     }
   ]
