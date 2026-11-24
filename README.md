@@ -56,7 +56,9 @@ evals/run.sh engineering-standards  # one skill
 
 The runner needs `claude` and Node.js on your `PATH`.
 
-The run prints how often each skill loaded and fails when a skill loads for fewer than 80% of its prompts or for any near-miss. It uses whatever `claude` is logged in with, so on a Claude subscription it counts against the plan’s usage limits instead of costing API credits. A full run is 150 sessions; `EVAL_RUNS=1` cuts that to a third. `EVAL_MODEL` (default `sonnet`) overrides the model. The full report is in `evals/results/`.
+Skills here should work for anyone, whichever model they prompt with, so every prompt runs once on Sonnet, Opus and Haiku, and each model gets its own verdict. The run prints how often each skill loaded per model, and fails when a skill loads for fewer than 80% of its prompts or for any near-miss on Sonnet or Opus. Haiku is reported but doesn't fail the run. One run per model can be unlucky: when a case fails on one model only, rerun that skill with `EVAL_RUNS=3` before changing its description.
+
+`EVAL_MODELS` (default `sonnet opus haiku`) picks the models and `EVAL_REQUIRED` (default `sonnet opus`) the ones that must pass. With `EVAL_MODELS=opus`, only Opus runs and must pass. A full run is 150 sessions, about the cost of 150 Sonnet sessions, since Opus costs twice as much per token as Sonnet and Haiku a twentieth. It uses whatever `claude` is logged in with, so on a Claude subscription it counts against the plan’s usage limits instead of costing API credits. The full reports are in `evals/results/`.
 
 To add evals for a skill, write `evals/<skill>/queries.json` and generate its cases:
 
