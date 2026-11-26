@@ -1,0 +1,12 @@
+# The only npm manifest is the eval fixture (evals/fixtures/nextjs-app), which
+# is never installed. It is stored as package.fixture.json so Dependabot doesn't
+# find it; this rule keeps version updates away from the fixtures if one is
+# ever named package.json again.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    exclude-paths:
+      - "evals/fixtures/**"
+    schedule:
+      interval: "weekly"

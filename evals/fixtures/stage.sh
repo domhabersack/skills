@@ -21,6 +21,11 @@ fixture="$fixtures/$1"
 pointer="${2:-}"
 
 rsync -a --exclude staged/ --exclude branches/ "$fixture"/ ./
+# The fixture keeps its manifest as package.fixture.json, so GitHub doesn't
+# treat it as a real dependency manifest (Dependabot alerts and PRs).
+if [[ -f package.fixture.json ]]; then
+  mv package.fixture.json package.json
+fi
 
 if [[ -n "$pointer" ]]; then
   printf '\n' >> CLAUDE.md
