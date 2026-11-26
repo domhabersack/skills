@@ -66,7 +66,7 @@ To add evals for a skill, write `evals/<skill>/queries.json` and generate its ca
 node evals/scripts/trigger-cases.mjs <skill>
 ```
 
-A query can set `"staged": true` to start with the fixture's `staged/` files staged on `main`. Every fixture directory under `branches/` becomes a branch off `main`.
+A query can set `"staged": true` to start with the fixture's `staged/` files staged on `main`. Every fixture directory under `branches/` becomes a branch off `main`. A fixture keeps its manifest as `package.fixture.json`, which becomes `package.json` in the sandbox, so GitHub doesn’t raise Dependabot alerts for a project that is never installed.
 
 Evals run locally only. Run them for every skill a pull request adds or changes before opening it.
 
