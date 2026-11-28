@@ -23,6 +23,7 @@ skills.sh only installs skills. Subagents in `agents/` are Claude Code-specific 
 
 | Skill                   | What it covers                                                                                               |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `adopt-ai-sdlc`         | Opting a repo into the agent pipeline: labels, build, test, and lint commands in CLAUDE.md, and a REVIEW.md  |
 | `engineering-standards` | Small changes, test-first, conventional commits, PR descriptions, dependencies, and hard rules               |
 | `sdlc-artifacts`        | Intent, spec, and plan files for a change: where they live, their sections, status, and keeping them in sync |
 | `ui-microcopy`          | Casing, typography, and wording of buttons, labels, headings, and other UI strings                           |
@@ -43,6 +44,7 @@ skills/<name>/SKILL.md   one directory per skill
 agents/<name>.md         one file per subagent
 templates/               copy-paste starting points (not published)
 evals/                   eval cases, fixtures, and the runner
+tests/                   unit tests for the scripts that skills and agents run
 ```
 
 ## Adding things
@@ -84,6 +86,7 @@ Evals run locally only. Run them for every skill a pull request adds or changes 
 ```sh
 claude plugin validate .
 npx skills add . --list
+tests/run.sh
 ```
 
 ## License
