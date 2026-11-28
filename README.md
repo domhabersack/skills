@@ -27,6 +27,12 @@ skills.sh only installs skills. Subagents in `agents/` are Claude Code-specific 
 | `sdlc-artifacts`        | Intent, spec, and plan files for a change: where they live, their sections, status, and keeping them in sync |
 | `ui-microcopy`          | Casing, typography, and wording of buttons, labels, headings, and other UI strings                           |
 
+## Subagents
+
+| Subagent        | Model and effort | What it does                                                                                                                         |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `code-searcher` | Haiku, low       | Read-only lookups: where something is defined and used, and which conventions comparable files follow, as a short `path:line` report |
+
 ## Layout
 
 ```
@@ -68,6 +74,8 @@ node evals/scripts/trigger-cases.mjs <skill>
 ```
 
 A query can set `"staged": true` to start with the fixture's `staged/` files staged on `main`. Every fixture directory under `branches/` becomes a branch off `main`. A fixture keeps its manifest as `package.fixture.json`, which becomes `package.json` in the sandbox, so GitHub doesn’t raise Dependabot alerts for a project that is never installed.
+
+Every subagent has hand-written output cases in `evals/<agent>/output/`, which ask the main session to delegate a question and grade the report it passes back.
 
 Evals run locally only. Run them for every skill a pull request adds or changes before opening it.
 

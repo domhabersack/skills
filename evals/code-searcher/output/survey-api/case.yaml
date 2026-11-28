@@ -1,0 +1,32 @@
+# Survey mode covers the whole area within 80 lines.
+schema_version: "1.0"
+name: code-searcher/output/survey-api
+tags: [code-searcher, output]
+context:
+  scaffold_script: stage.sh
+execution:
+  prompt: "Use the skills:code-searcher agent to answer: survey app/api before I plan a new route there: what exists, who uses it, and what constrains it. Reply with only its report, exactly as it returned it. Add nothing before or after it."
+  max_turns: 5
+  allowed_tools: [Agent]
+runs: 3
+graders:
+  - type: tool_used
+    name: delegated
+    tool: Agent
+    input_match: 'code-searcher'
+  - type: regex
+    name: covers-tasks
+    pattern: 'app/api/tasks/route\.ts'
+  - type: regex
+    name: covers-export
+    pattern: 'app/api/tasks/export/route\.ts'
+  - type: regex
+    name: covers-feed
+    pattern: 'app/api/feed/route\.ts'
+  - type: regex
+    name: covers-lists
+    pattern: 'app/api/lists/route\.ts'
+  - type: regex
+    name: at-most-80-lines
+    match: not_contains
+    pattern: '(?:[^\n]*\n){80}'
