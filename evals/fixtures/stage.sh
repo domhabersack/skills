@@ -53,6 +53,7 @@ commit "Add tasks API" src/lib/tasks.ts src/lib/redis.ts app/api
 commit "Task list, header and pricing" components
 commit "Recurring tasks, import and settings" src/lib/recurrence.ts app/import app/settings
 commit "Old migrations + review policy" scripts REVIEW.md
+commit "Write up csv import" docs
 
 if [[ -d "$fixture/branches" ]]; then
   for branch_dir in "$fixture/branches"/*/; do

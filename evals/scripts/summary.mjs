@@ -8,8 +8,9 @@
 // loaded in most of the runs that ran. Runs that errored count neither way;
 // they're reported, and fail the summary for a required model. Targets: at
 // least min_trigger_rate of the should-trigger cases, and no near-misses.
+// Output cases (<skill>/output/<name>) pass when most of their runs pass.
 // Models not listed in --required are reported but never fail the summary.
-// Skills named in --skills must have at least one case for every model.
+// Names given in --skills must have at least one case for every model.
 
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -55,8 +56,10 @@ for (const positional of positionals) {
   }
 
   const groups = new Map();
+  const seen = new Set();
   for (const evalCase of result.cases) {
     const [skill, arm, name] = evalCase.name.split("/");
+    seen.add(skill);
     const errors = evalCase.arms.with.filter((run) => run.error);
     const runs = evalCase.arms.with.filter((run) => !run.error);
     if (errors.length > 0) {
@@ -68,6 +71,17 @@ for (const positional of positionals) {
     // A case with no completed runs says nothing about the skill. It was
     // reported above.
     if (runs.length === 0) continue;
+
+    // Output cases check what a skill or agent produces, not when it loads.
+    if (arm === "output") {
+      const passedRuns = runs.filter((run) => run.passed).length;
+      const ok = passedRuns > runs.length / 2;
+      if (!ok) fail();
+      console.log(
+        `${ok ? "PASS" : "FAIL"} ${label} ${evalCase.name}: passed ${passedRuns}/${runs.length} runs`,
+      );
+      continue;
+    }
 
     const shouldTrigger =
       evalCase.graders[0].name === "loaded-before-first-change";
@@ -103,7 +117,7 @@ for (const positional of positionals) {
     fail();
   }
   for (const skill of requested) {
-    if (![...groups.values()].some((group) => group.skill === skill)) {
+    if (!seen.has(skill)) {
       console.error(`${label}: no eval results for ${skill}. Check the name.`);
       fail();
     }
