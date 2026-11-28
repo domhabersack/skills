@@ -1,0 +1,87 @@
+{
+  "skill": "adopt-ai-sdlc",
+  "fixture": "nextjs-app",
+  "min_trigger_rate": 0.8,
+  "queries": [
+    {
+      "name": "opt-in",
+      "query": "opt this repo into the agent pipeline",
+      "should_trigger": true
+    },
+    {
+      "name": "pipeline-labels",
+      "query": "set up the labels the agent loop needs on this repo",
+      "should_trigger": true
+    },
+    {
+      "name": "ready-for-agents",
+      "query": "I've been using the agent pipeline on my other repos and want todo-app in it too, so the agents can grill, plan and build its issues. set it up",
+      "should_trigger": true
+    },
+    {
+      "name": "not-adopted",
+      "query": "the work-issues loop put build:blocked on #12 with a comment saying 'run /skills:adopt-ai-sdlc'. sort that out",
+      "should_trigger": true
+    },
+    {
+      "name": "onboard-sdlc",
+      "query": "onboard this repo to the AI SDLC",
+      "should_trigger": true
+    },
+    {
+      "name": "verification-for-agents",
+      "query": "agents working on this repo keep guessing how to verify their changes. set it up the way the pipeline expects",
+      "should_trigger": true
+    },
+    {
+      "name": "adopt-again",
+      "query": "we adopted this repo for the agent workflow a while ago. run the adoption again and fix whatever drifted",
+      "should_trigger": true
+    },
+    {
+      "name": "enable-review-stack",
+      "query": "I want the review stack and the build loop to work in this repo, but agents here never know how to run the tests or what counts as a blocking review finding. do whatever setup that needs",
+      "should_trigger": true
+    },
+    {
+      "name": "good-first-issue",
+      "query": "add a 'good first issue' label to this repo",
+      "should_trigger": false
+    },
+    {
+      "name": "dev-command",
+      "query": "add npm run dev to the Commands section of CLAUDE.md",
+      "should_trigger": false
+    },
+    {
+      "name": "review-important",
+      "query": "what does REVIEW.md say counts as an Important finding?",
+      "should_trigger": false
+    },
+    {
+      "name": "ci-workflow",
+      "query": "add a GitHub Actions workflow that runs lint and the tests on every pull request",
+      "should_trigger": false
+    },
+    {
+      "name": "review-branch",
+      "query": "review the changes on the reminders branch",
+      "should_trigger": false
+    },
+    {
+      "name": "intent-snooze",
+      "query": "write an intent for this: people keep asking for a way to snooze a task until tomorrow",
+      "should_trigger": false
+    },
+    {
+      "name": "approve-plan-label",
+      "query": "I read the plan for #14 and it's fine. put plan:approved on the issue and take off plan:needs-review",
+      "should_trigger": false
+    },
+    {
+      "name": "dependabot-npm",
+      "query": "set up Dependabot version updates for npm in this repo",
+      "should_trigger": false
+    }
+  ]
+}
